@@ -13,8 +13,8 @@
 # limitations under the License.
 
 homepage: "https://www.comprend.com"
-documentation: "https://github.com/comprend-gtm-templates/<REPLACE WITH REPOSITORY NAME>"
+documentation: "https://github.com/comprend-gtm-templates/consent-mode"
 versions:
-  - sha: <REPLACE WITH COMMIT SHA>
+  - sha: deb759d87265a43ee116ddc91e357b8babbb0b6e
     changeNotes: |-
       Initial release
