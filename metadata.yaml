@@ -15,7 +15,7 @@
 homepage: "https://www.comprend.com"
 documentation: "https://github.com/comprend-gtm-templates/consent-mode"
 versions:
-  - sha: <REPLACE WITH COMMIT SHA OF template.tpl>
+  - sha: a1bcd3e3038a286744376dc424e2c9ef925b73e6
     changeNotes: |-
       Default commands are always sent in full; only update commands on the Consent Initialization trigger are deduplicated, and the Microsoft integrations and the data layer event now receive the full consent state.
       Microsoft Clarity integration uses the consentv2 call with both ad_storage and analytics_storage, for granted and denied consent alike; a type missing from the state is reported as denied.
