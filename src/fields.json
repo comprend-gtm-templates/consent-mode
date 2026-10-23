@@ -1,0 +1,512 @@
+[
+  {
+    "type": "SELECT",
+    "name": "command",
+    "displayName": "Consent Command",
+    "selectItems": [
+      {
+        "value": "default",
+        "displayValue": "default"
+      },
+      {
+        "value": "update",
+        "displayValue": "update"
+      }
+    ],
+    "simpleValueType": true,
+    "help": "⚙️ <b>Consent Command</b><br>\nSet a default or updated value for each consent type you are using. The consent state is guaranteed to be processed in this container before any queued data layer items are processed.\n<br><br>\n<b>default</b>\n<br>\nSet a default consent state for each consent type using the <a href=\"https://developers.google.com/tag-platform/tag-manager/templates/api#setdefaultconsentstate\">setDefaultConsentState</a> API. \n<br><br>\n<b>update</b>\n<br>\nSet an updated consent state for each consent type using the <a href=\"https://developers.google.com/tag-platform/tag-manager/templates/api#updateconsentstate\">updateConsentState</a> API.",
+    "defaultValue": "default",
+    "alwaysInSummary": true
+  },
+  {
+    "type": "GROUP",
+    "name": "regionSettings",
+    "displayName": "Region Specific Behaviour",
+    "groupStyle": "ZIPPY_OPEN",
+    "subParams": [
+      {
+        "type": "TEXT",
+        "name": "regions",
+        "displayName": "Regions",
+        "simpleValueType": true,
+        "help": "🌍 <b>Regions</b>\n<br>\nProvide a comma-separated list of country codes and/or subdivision codes according to <a href=\"https://en.wikipedia.org/wiki/ISO_3166-2\">ISO 3166-2</a>.",
+        "valueHint": "SE,DK,DE ...etc."
+      },
+      {
+        "type": "CHECKBOX",
+        "name": "includeEEA",
+        "checkboxText": "EEA Regions",
+        "simpleValueType": true,
+        "help": "🌍 <b>Include EEA Regions</b>\n<br>\nAutomatically include all regions from the <a href=\"https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Glossary:European_Economic_Area_(EEA)\">European Economic Area</a> in the list of regions.\n<br><br>\n🔗 <a href=\"https://developers.google.com/tag-platform/security/guides/consent?consentmode=advanced#region-specific-behavior\">Consent Mode - Advanced - Region-Specific Behavior</a>\n<br>\n🔗 <a href=\"https://developers.google.com/tag-platform/tag-manager/templates/consent-apis#regional-behavior\">Consent Mode - Templates - Region-Specific Behavior</a>"
+      }
+    ],
+    "enablingConditions": [
+      {
+        "paramName": "command",
+        "paramValue": "default",
+        "type": "EQUALS"
+      }
+    ]
+  },
+  {
+    "type": "GROUP",
+    "name": "consentSettings",
+    "displayName": "Consent Settings",
+    "groupStyle": "ZIPPY_OPEN",
+    "subParams": [
+      {
+        "type": "CHECKBOX",
+        "name": "getStateFromVar",
+        "checkboxText": "Read Settings From Variable",
+        "simpleValueType": true,
+        "subParams": [
+          {
+            "type": "SELECT",
+            "name": "consentStateVar",
+            "displayName": "",
+            "macrosInSelect": true,
+            "selectItems": [],
+            "simpleValueType": true,
+            "enablingConditions": [
+              {
+                "paramName": "getStateFromVar",
+                "paramValue": true,
+                "type": "EQUALS"
+              }
+            ]
+          }
+        ],
+        "help": "⚙️ <b>Read Settings From Variable</b>\n<br>\nProvide an object with key-value pairs that represent the desired consent state (see example below).\n<br><br>\nA consent type will be set to <b>granted</b> if it has a value of:\n<br>\n🔹 <b>\"granted\"</b> (<em>string</em>)<br>\n🔹 <b>\"true\"</b> (<em>string</em>)<br>\n🔹 &nbsp;<b>true</b> (<em>boolean</em>)<br>\n🔹 &nbsp;<b>1</b> (<em>one</em>)\n<br><br>\nA consent type will be set to <b>denied</b> if it has a value of:\n<br>\n🔹 <b>\"denied\"</b> (<em>string</em>)<br>\n🔹 <b>\"false\"</b> (<em>string</em>)<br>\n🔹 &nbsp;<b>false</b> (<em>boolean</em>)<br>\n🔹 &nbsp;<b>0</b> (<em>zero</em>)\n\n<br><br>\nIf a consent type has any other value than what is listed above it will be regarded as <b>(not set)</b> and excluded from the resulting consent command.\n<br><br>\n<b>Example</b>\n<br>\nIf the input variable has the following value:<br>\n{\n<br>&emsp;\nanalytics_storage:&emsp;&emsp;&emsp;\"granted\",\n<br>&emsp;\nad_user_data:&emsp;&emsp;&emsp;&emsp;&emsp;\"denied\",\n<br>&emsp;\nad_personalization:&emsp;&emsp;&nbsp;&nbsp;\"true\",\n<br>&emsp;\npersonalization_storage: &nbsp;false,\n<br>&emsp;\nfunctionality_storage:&emsp;&nbsp;&nbsp;&nbsp;undefined,\n<br>&emsp;\nsecurity_storage:&emsp;&emsp;&emsp;&nbsp;&nbsp;\"INVALID\"\n<br>\n}\n<br><br>\nThe resulting consent state will be:\n<br>\n{\n<br>&emsp;\nanalytics_storage:&emsp;&emsp;&emsp;\"granted\",\n<br>&emsp;\nad_user_data:&emsp;&emsp;&emsp;&emsp;&emsp;\"denied\",\n<br>&emsp;\nad_personalization:&emsp;&emsp;&nbsp;&nbsp;\"granted\",\n<br>&emsp;\npersonalization_storage: \"denied\",\n<br>\n}"
+      },
+      {
+        "type": "GROUP",
+        "name": "consentTypes",
+        "displayName": "Consent Types",
+        "groupStyle": "NO_ZIPPY",
+        "subParams": [
+          {
+            "type": "SELECT",
+            "name": "analytics_storage",
+            "displayName": "analytics_storage",
+            "macrosInSelect": true,
+            "selectItems": [
+              {
+                "value": "granted",
+                "displayValue": "granted"
+              },
+              {
+                "value": "denied",
+                "displayValue": "denied"
+              }
+            ],
+            "simpleValueType": true,
+            "defaultValue": "denied",
+            "help": "⚙️ <b>analytics_storage</b><br>\nEnables storage, such as cookies (web) or device identifiers (apps), related to analytics, for example, visit duration.<br><br>\n\n<b>If denied:</b><br>\n🔹 Google tags will not read or write first-party <a href=\"https://support.google.com/analytics/answer/11397207\">analytics cookies</a> or app identifiers.<br>\n🔹 Cookieless pings (web) or signals (apps) will be sent to Google Analytics for basic measurement and modeling purposes (advanced consent mode).<br>\n🔹 Google Analytics 4 will use cookieless pings for <a href=\"https://support.google.com/analytics/answer/11161109\">behavioral modeling</a> (advanced consent mode).\n<br><br>\n🔗 <a href=\"https://developers.google.com/tag-platform/security/concepts/consent-mode#consent-types\">Consent Mode Overview - Consent Types</a>\n<br>\n🔗 <a href=\"https://developers.google.com/tag-platform/security/concepts/consent-mode#consent-types:~:text=g.%2C%20GCLID%20/%20DCLID)-,analytics_storage,-denied\">Consent Mode Overview - Tag Behaviour</a>\n<br>\n🔗 <a href=\"https://support.google.com/analytics/answer/9976101?hl=en&sjid=11449020363400386941-EU#behavior:~:text=Consent%20mode%20behavior\">Analytics - Consent Mode Behavior</a>",
+            "notSetText": "(not set)",
+            "alwaysInSummary": true,
+            "valueValidators": [
+              {
+                "type": "NON_EMPTY",
+                "errorMessage": "This value cannot be <b>\"(not set)\"</b> while consent integration with <b>Microsoft Clarity</b> is enabled.",
+                "enablingConditions": [
+                  {
+                    "paramName": "extMsClarity",
+                    "paramValue": true,
+                    "type": "EQUALS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "SELECT",
+            "name": "ad_storage",
+            "displayName": "ad_storage",
+            "macrosInSelect": true,
+            "selectItems": [
+              {
+                "value": "granted",
+                "displayValue": "granted"
+              },
+              {
+                "value": "denied",
+                "displayValue": "denied"
+              }
+            ],
+            "simpleValueType": true,
+            "defaultValue": "denied",
+            "help": "⚙️ <b>ad_storage</b><br>\nEnables storage, such as cookies (web) or device identifiers (apps), related to advertising.<br><br>\n\n<b>If denied:</b><br>\n🔹 No new cookies or device identifiers pertaining to advertising may be written.<br>\n🔹 No existing advertising cookies or device identifiers may be read.<br>\n🔹 Requests are sent through a different domain to avoid previously set third-party cookies from being sent in request headers.<br>\n🔹 Google Analytics will not read or write Google Ads cookies, and Google signals features will not accumulate data for this traffic.<br>\n🔹 Ads products truncate IP addresses at collection.<br>\n🔹 IP addresses are used to derive IP country and then immediately deleted upon collection.<br>\n🔹 Full page URL is collected, and may include ad-click information in URL parameters (e.g., GCLID / DCLID). Ad-click information will only be used to approximate accurate traffic measurement.\n<br><br>\n🔗 <a href=\"https://developers.google.com/tag-platform/security/concepts/consent-mode#consent-types\">Consent Mode Overview - Consent Types</a>\n<br>\n🔗 <a href=\"https://developers.google.com/tag-platform/security/concepts/consent-mode#consent-types:~:text=first%20party%20data-,ad_storage,-denied\">Consent Mode Overview - Tag Behaviour</a>\n<br>\n🔗 <a href=\"https://support.google.com/analytics/answer/9976101?hl=en&sjid=11449020363400386941-EU#behavior:~:text=Consent%20mode%20behavior\">Analytics - Consent Mode Behavior</a>",
+            "notSetText": "(not set)",
+            "alwaysInSummary": true,
+            "valueValidators": [
+              {
+                "type": "NON_EMPTY",
+                "errorMessage": "This value cannot be <b>\"(not set)\"</b> while consent integration with <b>Microsoft Advertising (UET)</b> is enabled.",
+                "enablingConditions": [
+                  {
+                    "paramName": "extMsAdvertising",
+                    "paramValue": true,
+                    "type": "EQUALS"
+                  }
+                ]
+              },
+              {
+                "type": "NON_EMPTY",
+                "errorMessage": "This value cannot be <b>\"(not set)\"</b> while consent integration with <b>Microsoft Invest (Universal Pixel)</b> is enabled.",
+                "enablingConditions": [
+                  {
+                    "paramName": "extMsInvest",
+                    "paramValue": true,
+                    "type": "EQUALS"
+                  }
+                ]
+              },
+              {
+                "type": "NON_EMPTY",
+                "errorMessage": "This value cannot be <b>\"(not set)\"</b> while consent integration with <b>Microsoft Clarity</b> is enabled.",
+                "enablingConditions": [
+                  {
+                    "paramName": "extMsClarity",
+                    "paramValue": true,
+                    "type": "EQUALS"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "SELECT",
+            "name": "ad_user_data",
+            "displayName": "ad_user_data",
+            "macrosInSelect": true,
+            "selectItems": [
+              {
+                "value": "granted",
+                "displayValue": "granted"
+              },
+              {
+                "value": "denied",
+                "displayValue": "denied"
+              }
+            ],
+            "simpleValueType": true,
+            "defaultValue": "denied",
+            "help": "⚙️ <b>ad_user_data</b><br>\nSets consent for sending user data to Google for online advertising purposes.\n<br><br>\n<b>If denied:</b><br>\nPersonal data collection for online advertising is disabled, including:<br>\n🔹 user_id<br>\n🔹 Hashed first party data (enhanced conversions)\n<br><br>\n🔗 <a href=\"https://developers.google.com/tag-platform/security/concepts/consent-mode#consent-types\">Consent Mode Overview - Consent Types</a>\n<br>\n🔗 <a href=\"https://developers.google.com/tag-platform/security/concepts/consent-mode#consent-types:~:text=Google%27s%20advertising%20products-,ad_user_data,-denied\">Consent Mode Overview - Tag Behaviour</a>",
+            "notSetText": "(not set)",
+            "alwaysInSummary": true
+          },
+          {
+            "type": "SELECT",
+            "name": "ad_personalization",
+            "displayName": "ad_personalization",
+            "macrosInSelect": true,
+            "selectItems": [
+              {
+                "value": "granted",
+                "displayValue": "granted"
+              },
+              {
+                "value": "denied",
+                "displayValue": "denied"
+              }
+            ],
+            "simpleValueType": true,
+            "defaultValue": "denied",
+            "help": "⚙️ <b>ad_personalization</b><br>\nSets consent for personalized advertising.\n<br><br>\n<b>If denied:</b><br>\nThe following features won't receive data:<br>\n🔹 Remarketing in Google Ads<br>\n🔹 Remarketing in Display & Video 360<br>\n🔹 Remarketing in Search Ads 360\n<br><br>\n🔗 <a href=\"https://developers.google.com/tag-platform/security/concepts/consent-mode#consent-types\">Consent Mode Overview - Consent Types</a>\n<br>\n🔗 <a href=\"https://developers.google.com/tag-platform/security/concepts/consent-mode#consent-types:~:text=)%20are%20accessible.-,ad_personalization,-denied\">Consent Mode Overview - Tag Behaviour</a>",
+            "notSetText": "(not set)",
+            "alwaysInSummary": true
+          },
+          {
+            "type": "GROUP",
+            "name": "additionalTypes",
+            "displayName": "Additional Consent Types",
+            "groupStyle": "ZIPPY_OPEN_ON_PARAM",
+            "subParams": [
+              {
+                "type": "SELECT",
+                "name": "personalization_storage",
+                "displayName": "personalization_storage",
+                "macrosInSelect": true,
+                "selectItems": [
+                  {
+                    "value": "granted",
+                    "displayValue": "granted"
+                  },
+                  {
+                    "value": "denied",
+                    "displayValue": "denied"
+                  }
+                ],
+                "simpleValueType": true,
+                "notSetText": "(not set)",
+                "help": "⚙️ <b>personalization_storage</b><br>\nEnables storage related to personalization, for example, video recommendations.\n<br><br>\n🔗 <a href=\"https://developers.google.com/tag-platform/security/concepts/consent-mode#consent-types\">Consent Mode Overview - Consent Types</a>"
+              },
+              {
+                "type": "SELECT",
+                "name": "functionality_storage",
+                "displayName": "functionality_storage",
+                "macrosInSelect": true,
+                "selectItems": [
+                  {
+                    "value": "granted",
+                    "displayValue": "granted"
+                  },
+                  {
+                    "value": "denied",
+                    "displayValue": "denied"
+                  }
+                ],
+                "simpleValueType": true,
+                "notSetText": "(not set)",
+                "help": "⚙️ <b>functionality_storage</b><br>\nEnables storage that supports the functionality of the website or app, for example, language settings.\n<br><br>\n🔗 <a href=\"https://developers.google.com/tag-platform/security/concepts/consent-mode#consent-types\">Consent Mode Overview - Consent Types</a>"
+              },
+              {
+                "type": "SELECT",
+                "name": "security_storage",
+                "displayName": "security_storage",
+                "macrosInSelect": true,
+                "selectItems": [
+                  {
+                    "value": "granted",
+                    "displayValue": "granted"
+                  },
+                  {
+                    "value": "denied",
+                    "displayValue": "denied"
+                  }
+                ],
+                "simpleValueType": true,
+                "notSetText": "(not set)",
+                "help": "⚙️ <b>security_storage</b><br>\nEnables storage related to security such as authentication functionality, fraud prevention, and other user protection.\n<br><br>\n🔗 <a href=\"https://developers.google.com/tag-platform/security/concepts/consent-mode#consent-types\">Consent Mode Overview - Consent Types</a>"
+              }
+            ]
+          }
+        ],
+        "enablingConditions": [
+          {
+            "paramName": "getStateFromVar",
+            "paramValue": false,
+            "type": "EQUALS"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "GROUP",
+    "name": "additionalSettings",
+    "displayName": "Additional Settings",
+    "groupStyle": "ZIPPY_OPEN",
+    "subParams": [
+      {
+        "type": "CHECKBOX",
+        "name": "waitForUpdate",
+        "checkboxText": "Wait For Update",
+        "simpleValueType": true,
+        "subParams": [
+          {
+            "type": "TEXT",
+            "name": "wait_for_update",
+            "displayName": "Time to wait (milliseconds)",
+            "simpleValueType": true,
+            "valueUnit": "ms",
+            "help": "⌛ <b>Time to Wait</b><br>\nHow long to wait (<em>in milliseconds</em>) for an <b>update</b> command before firing queued up Google tags.",
+            "enablingConditions": [
+              {
+                "paramName": "waitForUpdate",
+                "paramValue": true,
+                "type": "EQUALS"
+              }
+            ],
+            "valueValidators": [
+              {
+                "type": "NON_NEGATIVE_NUMBER"
+              }
+            ],
+            "valueHint": "milliseconds",
+            "defaultValue": 500,
+            "alwaysInSummary": true
+          }
+        ],
+        "help": "⚙️ <b>Wait For Update</b>\n<br>\nEnabling this setting allows you to specify a millisecond value to control how long to delay queued up Google tags from sending data. This gives time for an <b>update</b> command to be registered.\n<br><br>\n🔗 <a href=\"https://developers.google.com/tag-platform/security/guides/consent?consentmode=advanced#integrate_with_asynchronous_consent_management_platforms:~:text=Optional%3A-,Integrate%20with%20asynchronous%20consent%20management%20platforms,-If%20your%20banner\">Consent Mode - Integrate with Asynchronous CMP</a>",
+        "enablingConditions": [
+          {
+            "paramName": "command",
+            "paramValue": "default",
+            "type": "EQUALS"
+          }
+        ]
+      },
+      {
+        "type": "CHECKBOX",
+        "name": "url_passthrough",
+        "checkboxText": "URL Passthrough",
+        "simpleValueType": true,
+        "help": "⚙️ <b>URL Passthrough</b>\n<br>\nWhen <b>ad_storage</b> is <b>denied</b>, URL passthrough can be used to persist information about ad clicks from one page to the next by appending it to the URL as URL parameters.\n<br><br>\nSimilarly, if <b>analytics_storage</b> is set to <b>denied</b>, URL passthrough can be used to persist event- and session-based analytics (including key events) across pages without the use of cookies.\n<br><br>\nThe following conditions must be met in order to use URL passthrough:\n<br>\n✔️ Consent mode is implemented on the page.\n<br>\n✔️ Your Google tag is consent-aware and present on the page (<a href=\"https://developers.google.com/tag-platform/security/concepts/consent-mode#advanced_consent_mode\">advanced consent mode</a>).\n<br>\n✔️ The outgoing link refers to the same domain as the current page's domain (internal page navigation).\n<br><br>\nWhen using URL passthrough, a few query parameters may be appended to links as users navigate through pages on your website:\n<br>\n🔹 gclid\n<br>\n🔹 dclid\n<br>\n🔹 gclsrc\n<br>\n🔹 _gl\n<br>\n🔹 wbraid\n<br><br>\n🔗 <a href=\"https://developers.google.com/tag-platform/security/guides/consent?consentmode=advanced#passthroughs\">Consent Mode - URL Passthrough </a>",
+        "alwaysInSummary": true
+      },
+      {
+        "type": "CHECKBOX",
+        "name": "ads_data_redaction",
+        "checkboxText": "Ads Data Redaction",
+        "simpleValueType": true,
+        "help": "⚙️ <b>Ads Data Redaction</b>\n<br>\nEnable this setting to further redact your ads data when consent for ad_storage is denied.\n<br><br>\n<b>If enabled and ad_storage is denied:</b>\n<br>\n🔹 Requests are sent through a different domain to avoid existing third-party cookies from being included in request headers.\n<br>\n🔹 Ad-click identifiers (e.g., gclid / dclid) in consent and key event pings are redacted.\n<br>\n🔹 Page URLs with ad-click identifiers are redacted.\n<br><br>\n🔗 <a href=\"https://developers.google.com/tag-platform/tag-manager/templates/consent-apis#data-redaction\">Consent Mode Templates - Redact Ads Data</a>\n<br>\n🔗 <a href=\"https://developers.google.com/tag-platform/security/concepts/consent-mode#consent-types:~:text=ad_storage%20and%20ads_data_redaction\">Consent Mode Overview - Tag Behaviour</a>\n<br>\n🔗 <a href=\"https://support.google.com/analytics/answer/9976101?hl=en&sjid=11449020363400386941-EU#behavior:~:text=ad_storage%3D%27denied%27%20and%20ads_data_redaction%3D%27true%27\">Analytics - Consent Mode Behavior</a>",
+        "alwaysInSummary": true
+      },
+      {
+        "type": "CHECKBOX",
+        "name": "dataLayerEvent",
+        "checkboxText": "Data Layer Event",
+        "simpleValueType": true,
+        "help": "📢 <b>Data Layer Event</b>\n<br>\nPush a predefined event to the data layer when consent state is modified by this template. Alternatively, specify a custom event name that better suits the needs of your specific setup.\n<br><br>\n<b>Pre-defined event names:</b><br>\n🔹 consent_default<br>\n🔹 consent_update\n<br><br>\n<b>Example event:</b><br>\ndataLayer.push({<br>\n&emsp;\nevent: \"<b>consent_&lt;command></b>\",<br>\n&emsp;\n<b>consent_state</b>: {<br>\n&emsp;&emsp;\nanalytics_storage,<br>\n&emsp;&emsp;\nad_storage,<br>\n&emsp;&emsp;\nad_user_data,<br>\n&emsp;&emsp;\nad_personalization,<br>\n&emsp;&emsp;\npersonalization_storage,<br>\n&emsp;&emsp;\nfunctionality_storage,<br>\n&emsp;&emsp;\nsecurity_storage<br>\n&emsp;\n},<br>\n&emsp;\n<em>consent_state_previous</em> (optional, see <b>Include Previous State</b>)<br>\n})\n<br><br>\n<b>consent_state</b> holds every consent type this template has set on the current page, with the latest command merged over the earlier ones. Consent types that have not been set are left out, and so are <em>region</em> and <em>wait_for_update</em>.",
+        "subParams": [
+          {
+            "type": "GROUP",
+            "name": "eventDataOptions",
+            "groupStyle": "NO_ZIPPY",
+            "subParams": [
+              {
+                "type": "CHECKBOX",
+                "name": "includePreviousState",
+                "checkboxText": "Include Previous State",
+                "simpleValueType": true,
+                "help": "⚙️ <b>Include Previous Consent State</b>\n<br>\nIncludes the additional variable <b>consent_state_previous</b> in the data layer event that is pushed together with the <b>update</b> command. The variable holds the consent state that was last set by this template on the current page, and is undefined on the first fire after a page load.\n<br><br>\n<b>Example event:</b><br>\ndataLayer.push({<br>\n&emsp;\nevent: \"<b>consent_update</b>\",<br>\n&emsp;\nconsent_state, (current consent state)<br>\n&emsp;\n<b>consent_state_previous</b>: {<br>\n&emsp;&emsp;\nanalytics_storage,<br>\n&emsp;&emsp;\nad_storage,<br>\n&emsp;&emsp;\nad_user_data,<br>\n&emsp;&emsp;\nad_personalization,<br>\n&emsp;&emsp;\npersonalization_storage,<br>\n&emsp;&emsp;\nfunctionality_storage,<br>\n&emsp;&emsp;\nsecurity_storage<br>\n&emsp;\n}<br>\n})",
+                "enablingConditions": [
+                  {
+                    "paramName": "command",
+                    "paramValue": "update",
+                    "type": "EQUALS"
+                  }
+                ]
+              },
+              {
+                "type": "CHECKBOX",
+                "name": "useCustomEventName",
+                "checkboxText": "Custom Event Name",
+                "simpleValueType": true,
+                "subParams": [
+                  {
+                    "type": "TEXT",
+                    "name": "customEventName",
+                    "simpleValueType": true,
+                    "enablingConditions": [
+                      {
+                        "paramName": "useCustomEventName",
+                        "paramValue": true,
+                        "type": "EQUALS"
+                      }
+                    ],
+                    "valueValidators": [
+                      {
+                        "type": "NON_EMPTY",
+                        "errorMessage": "An event name is required"
+                      },
+                      {
+                        "type": "STRING_LENGTH",
+                        "args": [
+                          1
+                        ],
+                        "errorMessage": "An event name must have at least one character",
+                        "enablingConditions": []
+                      }
+                    ],
+                    "valueHint": "consent_update"
+                  }
+                ],
+                "help": "📢 <b>Custom Event Name</b>\n<br>\nSpecify a custom name for the event that is pushed to the data layer when consent is updated by this template."
+              }
+            ],
+            "enablingConditions": [
+              {
+                "paramName": "dataLayerEvent",
+                "paramValue": true,
+                "type": "EQUALS"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "type": "CHECKBOX",
+        "name": "logToConsole",
+        "checkboxText": "Debug Logging",
+        "simpleValueType": true,
+        "help": "📢 <b>Log To Console</b>\n<br>\nLogs debug information to the console.",
+        "subParams": []
+      },
+      {
+        "type": "GROUP",
+        "name": "thirdParty",
+        "displayName": "Consent Integrations",
+        "groupStyle": "ZIPPY_OPEN",
+        "subParams": [
+          {
+            "type": "GROUP",
+            "name": "warnThirdParty",
+            "groupStyle": "NO_ZIPPY",
+            "subParams": [
+              {
+                "type": "LABEL",
+                "name": "warnLabel",
+                "displayName": "⚠️ <b>Warning</b>\n<br>\nConsent integrations do not support region-specific consent settings.<br><br>",
+                "enablingConditions": [
+                  {
+                    "paramName": "includeEEA",
+                    "paramValue": true,
+                    "type": "EQUALS"
+                  },
+                  {
+                    "paramName": "regions",
+                    "paramValue": "",
+                    "type": "PRESENT"
+                  }
+                ]
+              }
+            ],
+            "enablingConditions": [
+              {
+                "paramName": "extMsClarity",
+                "paramValue": true,
+                "type": "EQUALS"
+              },
+              {
+                "paramName": "extMsAdvertising",
+                "paramValue": true,
+                "type": "EQUALS"
+              },
+              {
+                "paramName": "extMsInvest",
+                "paramValue": true,
+                "type": "EQUALS"
+              }
+            ]
+          },
+          {
+            "type": "CHECKBOX",
+            "name": "extMsClarity",
+            "checkboxText": "Microsoft Clarity",
+            "simpleValueType": true,
+            "help": "<b>Microsoft Clarity</b><br>\nEnables consent mode integration with Microsoft Clarity through the <em>consentv2</em> call, which is sent for granted and denied consent alike.<br><br>\n\nThe integration reads from:<br>\n&emsp;<b>analytics_storage</b><br>\n&emsp;<b>ad_storage</b><br><br>\nA consent type that is not part of the consent state is reported to Clarity as <b>denied</b>.<br><br>\nRead more here:<br>\n<a href=\"https://learn.microsoft.com/en-us/clarity/setup-and-installation/consent-mode\">https://learn.microsoft.com/en-us/clarity/setup-and-installation/consent-mode</a><br>\n<a href=\"https://learn.microsoft.com/en-us/clarity/setup-and-installation/clarity-consent-api-v2\">https://learn.microsoft.com/en-us/clarity/setup-and-installation/clarity-consent-api-v2</a>",
+            "valueValidators": []
+          },
+          {
+            "type": "CHECKBOX",
+            "name": "extMsAdvertising",
+            "checkboxText": "Microsoft Advertising",
+            "simpleValueType": true,
+            "help": "<b>Microsoft Advertising</b><br>\nEnables consent mode integration with Microsoft Advertising (also known as \"<em>Universal Event Tracking (UET)</em>\" or \"<em>Bing Ads</em>\").<br><br>\n\nThe integration reads from:<br>\n&emsp;<b>ad_storage</b><br><br>\nRead more here:<br>\n<a href=\"https://help.ads.microsoft.com/apex/index/3/en/60119\">https://help.ads.microsoft.com/apex/index/3/en/60119</a>",
+            "valueValidators": []
+          },
+          {
+            "type": "CHECKBOX",
+            "name": "extMsInvest",
+            "checkboxText": "Microsoft Invest",
+            "simpleValueType": true,
+            "help": "<b>Microsoft Invest</b><br>\nEnables consent mode integration with Microsoft Invest Universal Pixel (also known as \"<em>Xandr Universal Pixel</em>\" or \"<em>pixie.js</em>\").<br><br>\n\nThe integration reads from:<br>\n&emsp;<b>ad_storage</b><br><br>\nRead more here:<br>\n<a href=\"https://learn.microsoft.com/en-us/xandr/invest/set-up-consent-mode-in-universal-pixel\">https://learn.microsoft.com/en-us/xandr/invest/set-up-consent-mode-in-universal-pixel</a>",
+            "valueValidators": []
+          }
+        ]
+      }
+    ]
+  }
+]
