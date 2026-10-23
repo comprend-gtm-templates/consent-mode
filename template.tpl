@@ -10,7 +10,7 @@ ___INFO___
 
 {
   "type": "TAG",
-  "id": "comprend.web.tag.consent-mode",
+  "id": "comprend_consent_mode",
   "version": 1,
   "securityGroups": [],
   "displayName": "Consent Mode",
