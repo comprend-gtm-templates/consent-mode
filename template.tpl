@@ -185,10 +185,21 @@ ___TEMPLATE_PARAMETERS___
               },
               {
                 "type": "NON_EMPTY",
-                "errorMessage": "This value cannot be \u003cb\u003e\"(not set)\"\u003c/b\u003e while consent integration with \u003cb\u003eMicrosoft Invest(UET)\u003c/b\u003e is enabled.",
+                "errorMessage": "This value cannot be \u003cb\u003e\"(not set)\"\u003c/b\u003e while consent integration with \u003cb\u003eMicrosoft Invest (Universal Pixel)\u003c/b\u003e is enabled.",
                 "enablingConditions": [
                   {
-                    "paramName": "extPixie",
+                    "paramName": "extMsInvest",
+                    "paramValue": true,
+                    "type": "EQUALS"
+                  }
+                ]
+              },
+              {
+                "type": "NON_EMPTY",
+                "errorMessage": "This value cannot be \u003cb\u003e\"(not set)\"\u003c/b\u003e while consent integration with \u003cb\u003eMicrosoft Clarity\u003c/b\u003e is enabled.",
+                "enablingConditions": [
+                  {
+                    "paramName": "extMsClarity",
                     "paramValue": true,
                     "type": "EQUALS"
                   }
@@ -280,7 +291,7 @@ ___TEMPLATE_PARAMETERS___
                 ],
                 "simpleValueType": true,
                 "notSetText": "(not set)",
-                "help": "⚙️ \u003cb\u003efunctionality_storage\u003c/b\u003e\u003cbr\u003e\nEnables storage related to personalization, for example, video recommendations.\n\u003cbr\u003e\u003cbr\u003e\n🔗 \u003ca href\u003d\"https://developers.google.com/tag-platform/security/concepts/consent-mode#consent-types\"\u003eConsent Mode Overview - Consent Types\u003c/a\u003e"
+                "help": "⚙️ \u003cb\u003efunctionality_storage\u003c/b\u003e\u003cbr\u003e\nEnables storage that supports the functionality of the website or app, for example, language settings.\n\u003cbr\u003e\u003cbr\u003e\n🔗 \u003ca href\u003d\"https://developers.google.com/tag-platform/security/concepts/consent-mode#consent-types\"\u003eConsent Mode Overview - Consent Types\u003c/a\u003e"
               },
               {
                 "type": "SELECT",
@@ -380,7 +391,7 @@ ___TEMPLATE_PARAMETERS___
         "name": "dataLayerEvent",
         "checkboxText": "Data Layer Event",
         "simpleValueType": true,
-        "help": "📢 \u003cb\u003eData Layer Event\u003c/b\u003e\n\u003cbr\u003e\nPush a predefined event to the data layer when consent state is modified by this template. Alternatively, specify a custom event name that better suits the needs of your specific setup.\n\u003cbr\u003e\u003cbr\u003e\n\u003cb\u003ePre-defined event names:\u003c/b\u003e\u003cbr\u003e\n🔹 consent_default\u003cbr\u003e\n🔹 consent_update\n\u003cbr\u003e\u003cbr\u003e\n\u003cb\u003eExample event:\u003c/b\u003e\u003cbr\u003e\ndataLayer.push({\u003cbr\u003e\n\u0026emsp;\nevent: \"\u003cb\u003econsent_\u0026lt;command\u003e\u003c/b\u003e\",\u003cbr\u003e\n\u0026emsp;\n\u003cb\u003econsent_state\u003c/b\u003e: {\u003cbr\u003e\n\u0026emsp;\u0026emsp;\nanalytics_storage,\u003cbr\u003e\n\u0026emsp;\u0026emsp;\nad_user_data,\u003cbr\u003e\n\u0026emsp;\u0026emsp;\nad_personalization,\u003cbr\u003e\n\u0026emsp;\u0026emsp;\npersonalization_storage,\u003cbr\u003e\n\u0026emsp;\u0026emsp;\nfunctionality_storage,\u003cbr\u003e\n\u0026emsp;\u0026emsp;\nsecurity_storage,\u003cbr\u003e\n\u0026emsp;\u0026emsp;\n\u003cem\u003ewait_for_update\u003c/em\u003e,\u003cbr\u003e\n\u0026emsp;\u0026emsp;\n\u003cem\u003eregion_specific\u003c/em\u003e (region-specific consent state)\u003cbr\u003e\n\u0026emsp;\n},\u003cbr\u003e\n\u0026emsp;\n\u003cem\u003econsent_state_default\u003c/em\u003e,\u0026emsp;(optional)\u003cbr\u003e\n\u0026emsp;\n\u003cem\u003econsent_state_previous\u003c/em\u003e, (optional)\u003cbr\u003e\n})",
+        "help": "📢 \u003cb\u003eData Layer Event\u003c/b\u003e\n\u003cbr\u003e\nPush a predefined event to the data layer when consent state is modified by this template. Alternatively, specify a custom event name that better suits the needs of your specific setup.\n\u003cbr\u003e\u003cbr\u003e\n\u003cb\u003ePre-defined event names:\u003c/b\u003e\u003cbr\u003e\n🔹 consent_default\u003cbr\u003e\n🔹 consent_update\n\u003cbr\u003e\u003cbr\u003e\n\u003cb\u003eExample event:\u003c/b\u003e\u003cbr\u003e\ndataLayer.push({\u003cbr\u003e\n\u0026emsp;\nevent: \"\u003cb\u003econsent_\u0026lt;command\u003e\u003c/b\u003e\",\u003cbr\u003e\n\u0026emsp;\n\u003cb\u003econsent_state\u003c/b\u003e: {\u003cbr\u003e\n\u0026emsp;\u0026emsp;\nanalytics_storage,\u003cbr\u003e\n\u0026emsp;\u0026emsp;\nad_storage,\u003cbr\u003e\n\u0026emsp;\u0026emsp;\nad_user_data,\u003cbr\u003e\n\u0026emsp;\u0026emsp;\nad_personalization,\u003cbr\u003e\n\u0026emsp;\u0026emsp;\npersonalization_storage,\u003cbr\u003e\n\u0026emsp;\u0026emsp;\nfunctionality_storage,\u003cbr\u003e\n\u0026emsp;\u0026emsp;\nsecurity_storage\u003cbr\u003e\n\u0026emsp;\n},\u003cbr\u003e\n\u0026emsp;\n\u003cem\u003econsent_state_previous\u003c/em\u003e (optional, see \u003cb\u003eInclude Previous State\u003c/b\u003e)\u003cbr\u003e\n})\n\u003cbr\u003e\u003cbr\u003e\n\u003cb\u003econsent_state\u003c/b\u003e holds every consent type this template has set on the current page, with the latest command merged over the earlier ones. Consent types that have not been set are left out, and so are \u003cem\u003eregion\u003c/em\u003e and \u003cem\u003ewait_for_update\u003c/em\u003e.",
         "subParams": [
           {
             "type": "GROUP",
@@ -392,7 +403,7 @@ ___TEMPLATE_PARAMETERS___
                 "name": "includePreviousState",
                 "checkboxText": "Include Previous State",
                 "simpleValueType": true,
-                "help": "⚙️ \u003cb\u003eInclude Previous Consent State\u003c/b\u003e\n\u003cbr\u003e\nIncludes the additional variable \u003cb\u003econsent_state_previous\u003c/b\u003e in the data layer event that is pushed together with the \u003cb\u003eupdate\u003c/b\u003e command. The variable holds information about the consent state that was last set by this template.\n\u003cbr\u003e\u003cbr\u003e\n\u003cb\u003eExample event:\u003c/b\u003e\u003cbr\u003e\ndataLayer.push({\u003cbr\u003e\n\u0026emsp;\nevent: \"\u003cb\u003econsent_update\u003c/b\u003e\",\u003cbr\u003e\n\u0026emsp;\nconsent_state, (current consent state)\u003cbr\u003e\n\u0026emsp;\n\u003cb\u003econsent_state_previous\u003c/b\u003e: {\u003cbr\u003e\n\u0026emsp;\u0026emsp;\nanalytics_storage,\u003cbr\u003e\n\u0026emsp;\u0026emsp;\nad_user_data,\u003cbr\u003e\n\u0026emsp;\u0026emsp;\nad_personalization,\u003cbr\u003e\n\u0026emsp;\u0026emsp;\npersonalization_storage,\u003cbr\u003e\n\u0026emsp;\u0026emsp;\nfunctionality_storage,\u003cbr\u003e\n\u0026emsp;\u0026emsp;\nsecurity_storage\u003cbr\u003e\n\u0026emsp;\n\u003c/em\u003e}\u003cbr\u003e\n})",
+                "help": "⚙️ \u003cb\u003eInclude Previous Consent State\u003c/b\u003e\n\u003cbr\u003e\nIncludes the additional variable \u003cb\u003econsent_state_previous\u003c/b\u003e in the data layer event that is pushed together with the \u003cb\u003eupdate\u003c/b\u003e command. The variable holds the consent state that was last set by this template on the current page, and is undefined on the first fire after a page load.\n\u003cbr\u003e\u003cbr\u003e\n\u003cb\u003eExample event:\u003c/b\u003e\u003cbr\u003e\ndataLayer.push({\u003cbr\u003e\n\u0026emsp;\nevent: \"\u003cb\u003econsent_update\u003c/b\u003e\",\u003cbr\u003e\n\u0026emsp;\nconsent_state, (current consent state)\u003cbr\u003e\n\u0026emsp;\n\u003cb\u003econsent_state_previous\u003c/b\u003e: {\u003cbr\u003e\n\u0026emsp;\u0026emsp;\nanalytics_storage,\u003cbr\u003e\n\u0026emsp;\u0026emsp;\nad_storage,\u003cbr\u003e\n\u0026emsp;\u0026emsp;\nad_user_data,\u003cbr\u003e\n\u0026emsp;\u0026emsp;\nad_personalization,\u003cbr\u003e\n\u0026emsp;\u0026emsp;\npersonalization_storage,\u003cbr\u003e\n\u0026emsp;\u0026emsp;\nfunctionality_storage,\u003cbr\u003e\n\u0026emsp;\u0026emsp;\nsecurity_storage\u003cbr\u003e\n\u0026emsp;\n}\u003cbr\u003e\n})",
                 "enablingConditions": [
                   {
                     "paramName": "command",
@@ -508,7 +519,7 @@ ___TEMPLATE_PARAMETERS___
             "name": "extMsClarity",
             "checkboxText": "Microsoft Clarity",
             "simpleValueType": true,
-            "help": "\u003cb\u003eMicrosoft Clarity\u003c/b\u003e\u003cbr\u003e\nEnables consent mode integration with Microsoft Clarity.\u003cbr\u003e\u003cbr\u003e\n\nThe integration reads from:\u003cbr\u003e\n\u0026emsp;\u003cb\u003eanalytics_storage\u003c/b\u003e\u003cbr\u003e\u003cbr\u003e\nRead more here:\u003cbr\u003e\n\u003ca href\u003d\"https://learn.microsoft.com/en-us/clarity/setup-and-installation/cookie-consent\"\u003ehttps://learn.microsoft.com/en-us/clarity/setup-and-installation/cookie-consent\u003c/a\u003e",
+            "help": "\u003cb\u003eMicrosoft Clarity\u003c/b\u003e\u003cbr\u003e\nEnables consent mode integration with Microsoft Clarity through the \u003cem\u003econsentv2\u003c/em\u003e call, which is sent for granted and denied consent alike.\u003cbr\u003e\u003cbr\u003e\n\nThe integration reads from:\u003cbr\u003e\n\u0026emsp;\u003cb\u003eanalytics_storage\u003c/b\u003e\u003cbr\u003e\n\u0026emsp;\u003cb\u003ead_storage\u003c/b\u003e\u003cbr\u003e\u003cbr\u003e\nA consent type that is not part of the consent state is reported to Clarity as \u003cb\u003edenied\u003c/b\u003e.\u003cbr\u003e\u003cbr\u003e\nRead more here:\u003cbr\u003e\n\u003ca href\u003d\"https://learn.microsoft.com/en-us/clarity/setup-and-installation/consent-mode\"\u003ehttps://learn.microsoft.com/en-us/clarity/setup-and-installation/consent-mode\u003c/a\u003e\u003cbr\u003e\n\u003ca href\u003d\"https://learn.microsoft.com/en-us/clarity/setup-and-installation/clarity-consent-api-v2\"\u003ehttps://learn.microsoft.com/en-us/clarity/setup-and-installation/clarity-consent-api-v2\u003c/a\u003e",
             "valueValidators": []
           },
           {
@@ -537,6 +548,7 @@ ___TEMPLATE_PARAMETERS___
 ___SANDBOXED_JS_FOR_WEB_TEMPLATE___
 
 const logToConsole = require('logToConsole');
+const JSON = require('JSON');
 const Object = require('Object');
 const gtagSet = require('gtagSet');
 const makeInteger = require('makeInteger');
@@ -596,11 +608,14 @@ const regionsEEA = [
 ];
 
 // Update Consent - Global
-const newConsentState = deduplicateConsentStates(getNewConsentState());
+// The Google command only carries the types whose value changes. The integrations
+// and the data layer event always receive the full requested state.
+const newConsentState = getNewConsentState();
+const commandState = deduplicateConsentStates(newConsentState);
 
-if (newConsentState) {
-  setConsent[data.command](newConsentState);
-  log(data.command + ': ' + newConsentState);
+if (commandState) {
+  setConsent[data.command](commandState);
+  log(data.command + ': ' + JSON.stringify(commandState));
 }
 
 // URL Passthrough & Ads Data Redaction
@@ -609,7 +624,7 @@ gtagSet({
   'ads_data_redaction': data.ads_data_redaction || false
 });
 
-if (newConsentState) {
+if (commandState) {
   // Consent Mode Integrations
   activateIntegrations(newConsentState);
 
@@ -656,7 +671,7 @@ function getEventMessage(newState) {
   consentTypes.forEach(consentType => {
     if (newState[consentType])
       mergedState[consentType] = newState[consentType];
-    else if (previousState)
+    else if (previousState && previousState[consentType])
       mergedState[consentType] = previousState[consentType];
   });
   tplStorage.setItem('previousConsentState', mergedState);
@@ -669,20 +684,22 @@ function getEventMessage(newState) {
 }
 
 function deduplicateConsentStates(newConsentState) {
-  const consentTypes = Object.keys(newConsentState);
-  consentTypes.forEach(type => {
-    const currentState = readConsentState(type);
-    if (!currentState) return;
-    const newState = newConsentState[type];
-    if (newState === currentState)
-      Object.delete(newConsentState, type);
+  // A default command is always sent in full. Tag Manager reports a consent type
+  // that has never been set as granted, so comparing against it would drop every
+  // granted default and change how a region-specific default resolves.
+  const commandState = {};
+  Object.keys(newConsentState).forEach(type => {
+    if (data.command === 'update') {
+      const currentState = readConsentState(type);
+      if (currentState && newConsentState[type] === currentState) return;
+    }
+    commandState[type] = newConsentState[type];
   });
-  const stateModified = !!Object.keys(newConsentState).length;
-  if (!stateModified) {
-    log('No changes in consent state. Skipping "' + data.command + '" command.');
+  if (!Object.keys(commandState).length) {
+    log('Consent state is empty or unchanged. Skipping "' + data.command + '" command.');
     return false;
   }
-  return newConsentState;
+  return commandState;
 }
 
 function getNewConsentState() {
@@ -729,13 +746,10 @@ function getWaitForUpdate() {
 function activateIntegrations(consentState) {
   // Microsoft Clarity
   if (data.extMsClarity) {
-    if (consentState.analytics_storage === 'granted') {
-      const clarityIsDefined = require('copyFromWindow')('clarity');
-      if (clarityIsDefined)
-        require('callInWindow')('clarity', 'consent');
-      else
-        require('createArgumentsQueue')('clarity', 'clarity.q')('consent');
-    }
+    require('createArgumentsQueue')('clarity', 'clarity.q')('consentv2', {
+      'ad_Storage':        consentState.ad_storage        || 'denied',
+      'analytics_Storage': consentState.analytics_storage || 'denied'
+    });
   }
   // Microsoft Advertising
   if (data.extMsAdvertising) {
@@ -1314,198 +1328,173 @@ ___WEB_PERMISSIONS___
 ___TESTS___
 
 scenarios:
-- name: Consent State - Default
+- name: 1 - Consent State - Default
   code: |-
     mockData.waitForUpdate = true;
     runCode(mockData);
 
-    // Verify that the tag finished successfully.
     assertApi('setDefaultConsentState').wasCalledWith({
-      analytics_storage:       'denied',
-      ad_storage:              'denied',
-      ad_user_data:            'denied',
-      ad_personalization:      'denied',
-      wait_for_update:          500,
+      analytics_storage:  'denied',
+      ad_storage:         'denied',
+      ad_user_data:       'denied',
+      ad_personalization: 'denied',
+      wait_for_update:     500,
     });
-
     assertApi('gtmOnSuccess').wasCalled();
-- name: Consent State - Default (From Variable)
+- name: 2 - Consent State - Default (From Variable)
   code: |-
     mockData.getStateFromVar = true;
     mockData.waitForUpdate = true;
     runCode(mockData);
 
-    // Verify that the tag finished successfully.
     assertApi('setDefaultConsentState').wasCalledWith({
-      analytics_storage:       'denied',
-      ad_storage:              'granted',
-      ad_user_data:            'granted',
-      ad_personalization:      'granted',
-      wait_for_update:          500,
+      analytics_storage:  'denied',
+      ad_storage:         'granted',
+      ad_user_data:       'granted',
+      ad_personalization: 'granted',
+      wait_for_update:     500,
     });
-
     assertApi('gtmOnSuccess').wasCalled();
-- name: Consent State - Default - Regional - EEA
+- name: 3 - Consent State - Default - Regional - EEA
   code: |-
     mockData.includeEEA = true;
     mockData.waitForUpdate = true;
     runCode(mockData);
 
-    // Verify default state
     assertApi('setDefaultConsentState').wasCalledWith({
-      analytics_storage:       'denied',
-      ad_storage:              'denied',
-      ad_user_data:            'denied',
-      ad_personalization:      'denied',
-      wait_for_update:          500,
-      region:                   regionsEEA,
+      analytics_storage:  'denied',
+      ad_storage:         'denied',
+      ad_user_data:       'denied',
+      ad_personalization: 'denied',
+      wait_for_update:     500,
+      region:              regionsEEA,
     });
-
     assertApi('gtmOnSuccess').wasCalled();
-- name: Consent State - Default - Regional - EEA (From Variable)
+- name: 4 - Consent State - Default - Regional - EEA (From Variable)
   code: |-
     mockData.includeEEA = true;
     mockData.getStateFromVar = true;
     mockData.waitForUpdate = true;
     runCode(mockData);
 
-    // Verify default state
     assertApi('setDefaultConsentState').wasCalledWith({
-      analytics_storage:       'denied',
-      ad_storage:              'granted',
-      ad_user_data:            'granted',
-      ad_personalization:      'granted',
-      wait_for_update:          500,
-      region:                   regionsEEA,
+      analytics_storage:  'denied',
+      ad_storage:         'granted',
+      ad_user_data:       'granted',
+      ad_personalization: 'granted',
+      wait_for_update:     500,
+      region:              regionsEEA,
     });
-
     assertApi('gtmOnSuccess').wasCalled();
-- name: Consent State - Default - Regional - Custom
+- name: 5 - Consent State - Default - Regional - Custom
   code: |-
     mockData.includeEEA = false;
     mockData.waitForUpdate = true;
 
-    // Run 1 - Single Region
+    // Single region
     mockData.regions = 'US';
     runCode(mockData);
-
-    // Verify default state
     assertApi('setDefaultConsentState').wasCalledWith({
-      analytics_storage:       'denied',
-      ad_storage:              'denied',
-      ad_user_data:            'denied',
-      ad_personalization:      'denied',
-      wait_for_update:          500,
-      region:                   ['US'],
+      analytics_storage:  'denied',
+      ad_storage:         'denied',
+      ad_user_data:       'denied',
+      ad_personalization: 'denied',
+      wait_for_update:     500,
+      region:              ['US'],
     });
     assertApi('gtmOnSuccess').wasCalled();
 
-    // Run 2 - Multi Region
-    mockData.regions = 'US,CA';
+    // Several regions, with spaces and lower case to trim and normalise
+    mockData.regions = 'us, CA ,SE';
     runCode(mockData);
-
     assertApi('setDefaultConsentState').wasCalledWith({
-      analytics_storage:       'denied',
-      ad_storage:              'denied',
-      ad_user_data:            'denied',
-      ad_personalization:      'denied',
-      wait_for_update:          500,
-      region:                   ['US', 'CA'],
+      analytics_storage:  'denied',
+      ad_storage:         'denied',
+      ad_user_data:       'denied',
+      ad_personalization: 'denied',
+      wait_for_update:     500,
+      region:              ['US', 'CA', 'SE'],
     });
-
     assertApi('gtmOnSuccess').wasCalled();
-- name: Consent State - Default - Regional - Custom (From Variable)
+- name: 6 - Consent State - Default - Regional - Custom (From Variable)
   code: |-
     mockData.includeEEA = false;
     mockData.waitForUpdate = true;
     mockData.getStateFromVar = true;
-    mockData.includeEEA = false;
-    mockData.waitForUpdate = true;
 
-    // Run 1 - Single Region
+    // Single region
     mockData.regions = 'US';
     runCode(mockData);
-
-    // Verify default state
     assertApi('setDefaultConsentState').wasCalledWith({
-      analytics_storage:       'denied',
-      ad_storage:              'granted',
-      ad_user_data:            'granted',
-      ad_personalization:      'granted',
-      wait_for_update:          500,
-      region:                   ['US'],
+      analytics_storage:  'denied',
+      ad_storage:         'granted',
+      ad_user_data:       'granted',
+      ad_personalization: 'granted',
+      wait_for_update:     500,
+      region:              ['US'],
     });
     assertApi('gtmOnSuccess').wasCalled();
 
-    // Run 2 - Multi Region
+    // Several regions
     mockData.regions = 'US,CA';
     runCode(mockData);
-
     assertApi('setDefaultConsentState').wasCalledWith({
-      analytics_storage:       'denied',
-      ad_storage:              'granted',
-      ad_user_data:            'granted',
-      ad_personalization:      'granted',
-      wait_for_update:          500,
-      region:                   ['US', 'CA'],
+      analytics_storage:  'denied',
+      ad_storage:         'granted',
+      ad_user_data:       'granted',
+      ad_personalization: 'granted',
+      wait_for_update:     500,
+      region:              ['US', 'CA'],
     });
-
     assertApi('gtmOnSuccess').wasCalled();
-- name: Consent State - Default - Regional - Custom - Including EEA
+- name: 7 - Consent State - Default - Regional - Custom - Including EEA
   code: |-
-    mockData.waitForUpdate = true;
     mockData.includeEEA = true;
     mockData.waitForUpdate = true;
-    mockData.regions = 'US,CA';
+    // SE is also in the EEA list and must appear once.
+    mockData.regions = 'US,CA,SE';
     runCode(mockData);
 
-    // Verify region specific state
     assertApi('setDefaultConsentState').wasCalledWith({
-      analytics_storage:       'denied',
-      ad_storage:              'denied',
-      ad_user_data:            'denied',
-      ad_personalization:      'denied',
-      wait_for_update:          500,
-      region:                   ['US', 'CA'].concat(regionsEEA),
+      analytics_storage:  'denied',
+      ad_storage:         'denied',
+      ad_user_data:       'denied',
+      ad_personalization: 'denied',
+      wait_for_update:     500,
+      region:              ['US', 'CA', 'SE'].concat(regionsEEA.filter(r => r !== 'SE')),
     });
-
     assertApi('gtmOnSuccess').wasCalled();
-- name: Consent State - Default - Regional - Custom - Including EEA (From Variable)
+- name: 8 - Consent State - Default - Regional - Custom - Including EEA (From Variable)
   code: |-
+    mockData.includeEEA = true;
     mockData.waitForUpdate = true;
     mockData.getStateFromVar = true;
-    mockData.includeEEA = true;
-    mockData.waitForUpdate = true;
     mockData.regions = 'US,CA';
     runCode(mockData);
 
-    // Verify region specific state
     assertApi('setDefaultConsentState').wasCalledWith({
-      analytics_storage:       'denied',
-      ad_storage:              'granted',
-      ad_user_data:            'granted',
-      ad_personalization:      'granted',
-      wait_for_update:          500,
-      region:                   ['US', 'CA'].concat(regionsEEA),
+      analytics_storage:  'denied',
+      ad_storage:         'granted',
+      ad_user_data:       'granted',
+      ad_personalization: 'granted',
+      wait_for_update:     500,
+      region:              ['US', 'CA'].concat(regionsEEA),
     });
-
     assertApi('gtmOnSuccess').wasCalled();
-- name: Consent State - Update
+- name: 9 - Consent State - Update
   code: |-
+    mock('copyFromDataLayer', key => 'cmp_consent_update');
     mockData.command = 'update';
-    mockData.ad_storage = 'true';
-    mockData.ad_user_data = 'granted';
-    mockData.ad_user_data = true;
     mockData.analytics_storage = 'granted';
+    mockData.ad_storage = 'true';
+    mockData.ad_user_data = true;
     mockData.ad_personalization = 'denied';
     mockData.personalization_storage = 'false';
     mockData.functionality_storage = false;
     mockData.security_storage = 'INVALID';
-
-    // Call runCode to run the template's code.
     runCode(mockData);
 
-    // Verify that the tag finished successfully.
+    // Every accepted spelling is normalised; an unknown value is left out.
     assertApi('updateConsentState').wasCalledWith({
       analytics_storage:       'granted',
       ad_storage:              'granted',
@@ -1515,267 +1504,407 @@ scenarios:
       functionality_storage:   'denied',
     });
     assertApi('gtmOnSuccess').wasCalled();
-- name: Consent State - Update (From Variable)
+- name: 10 - Consent State - Update (From Variable)
   code: |-
+    mock('copyFromDataLayer', key => 'cmp_consent_update');
     mockData.command = 'update';
-    mockData.ad_storage = 'true';
-    mockData.ad_user_data = 'granted';
-    mockData.ad_user_data = true;
-    mockData.analytics_storage = 'granted';
-    mockData.ad_personalization = 'denied';
-    mockData.personalization_storage = 'false';
-    mockData.functionality_storage = false;
-    mockData.security_storage = 'INVALID';
     mockData.getStateFromVar = true;
-
-    // Call runCode to run the template's code.
+    mockData.consentStateVar = {
+      analytics_storage:  1,
+      ad_storage:         0,
+      ad_user_data:       'granted',
+      ad_personalization: 'false',
+      security_storage:   'maybe',
+    };
     runCode(mockData);
 
-    // Verify that the tag finished successfully.
     assertApi('updateConsentState').wasCalledWith({
-      analytics_storage:       'denied',
-      ad_storage:              'granted',
-      ad_user_data:            'granted',
-      ad_personalization:      'granted',
+      analytics_storage:  'granted',
+      ad_storage:         'denied',
+      ad_user_data:       'granted',
+      ad_personalization: 'denied',
     });
     assertApi('gtmOnSuccess').wasCalled();
-- name: Additional Settings - Wait For Update
+- name: 11 - Additional Settings - Wait For Update
   code: |-
+    const baseState = {
+      analytics_storage:  'denied',
+      ad_storage:         'denied',
+      ad_user_data:       'denied',
+      ad_personalization: 'denied',
+    };
+
+    // Unchecked: omitted even when the hidden field still holds a value
     mockData.waitForUpdate = false;
-    mockData.wait_for_update = 0;
+    mockData.wait_for_update = 500;
     runCode(mockData);
-
-    // Verify that the tag finished successfully.
-    assertApi('setDefaultConsentState').wasCalledWith({
-      ad_storage:              'denied',
-      analytics_storage:       'denied',
-      ad_user_data:            'denied',
-      ad_personalization:      'denied',
-    });
+    assertApi('setDefaultConsentState').wasCalledWith(baseState);
     assertApi('gtmOnSuccess').wasCalled();
 
-    // Verify that the tag finished successfully.
+    // Checked with 0: omitted
     mockData.waitForUpdate = true;
     mockData.wait_for_update = 0;
     runCode(mockData);
-    assertApi('setDefaultConsentState').wasCalledWith({
-      ad_storage:              'denied',
-      analytics_storage:       'denied',
-      ad_user_data:            'denied',
-      ad_personalization:      'denied',
-    });
-    assertApi('gtmOnSuccess').wasCalled();
+    assertApi('setDefaultConsentState').wasCalledWith(baseState);
 
-    // Verify that the tag finished successfully.
-    mockData.waitForUpdate = true;
-    mockData.wait_for_update = 1.0;
+    // Checked with a decimal: rounded to a whole millisecond
+    mockData.wait_for_update = 1.4;
     runCode(mockData);
     assertApi('setDefaultConsentState').wasCalledWith({
-      ad_storage:              'denied',
-      analytics_storage:       'denied',
-      ad_user_data:            'denied',
-      ad_personalization:      'denied',
-      wait_for_update:          1,
+      analytics_storage:  'denied',
+      ad_storage:         'denied',
+      ad_user_data:       'denied',
+      ad_personalization: 'denied',
+      wait_for_update:     1,
     });
-    assertApi('gtmOnSuccess').wasCalled();
 
-    // Verify that the tag finished successfully.
-    mockData.waitForUpdate = true;
-    mockData.wait_for_update = '0001';
+    // Checked with a numeric string from a variable
+    mockData.wait_for_update = '0100';
     runCode(mockData);
     assertApi('setDefaultConsentState').wasCalledWith({
-      ad_storage:              'denied',
-      analytics_storage:       'denied',
-      ad_user_data:            'denied',
-      ad_personalization:      'denied',
-      wait_for_update:          1,
+      analytics_storage:  'denied',
+      ad_storage:         'denied',
+      ad_user_data:       'denied',
+      ad_personalization: 'denied',
+      wait_for_update:     100,
     });
     assertApi('gtmOnSuccess').wasCalled();
-
-    // Verify that the tag finished successfully.
-    mockData.waitForUpdate = true;
-    mockData.wait_for_update = '100';
-    runCode(mockData);
-    assertApi('setDefaultConsentState').wasCalledWith({
-      ad_storage:              'denied',
-      analytics_storage:       'denied',
-      ad_user_data:            'denied',
-      ad_personalization:      'denied',
-      wait_for_update:          100,
-    });
-    assertApi('gtmOnSuccess').wasCalled();
-- name: Additional Settings - URL Passthrough & Ads Data Redaction
+- name: 12 - Additional Settings - URL Passthrough & Ads Data Redaction
   code: |-
-    // Both enabled
+    // Both flags are written on every fire, as true or false.
     mockData.url_passthrough = true;
     mockData.ads_data_redaction = true;
     runCode(mockData);
-    assertApi('gtagSet').wasCalledWith({
-      url_passthrough: true,
-      ads_data_redaction: true,
-    });
-    assertApi('gtmOnSuccess').wasCalled();
+    assertApi('gtagSet').wasCalledWith({ url_passthrough: true, ads_data_redaction: true });
 
-    // Only passthrough
     mockData.url_passthrough = true;
     mockData.ads_data_redaction = false;
     runCode(mockData);
-    assertApi('gtagSet').wasCalledWith({
-      url_passthrough: true,
-      ads_data_redaction: false,
-    });
-    assertApi('gtmOnSuccess').wasCalled();
+    assertApi('gtagSet').wasCalledWith({ url_passthrough: true, ads_data_redaction: false });
 
-    // Only ads data redaction
     mockData.url_passthrough = false;
     mockData.ads_data_redaction = true;
     runCode(mockData);
-    assertApi('gtagSet').wasCalledWith({
-      url_passthrough: false,
-      ads_data_redaction: true,
-    });
-    assertApi('gtmOnSuccess').wasCalled();
+    assertApi('gtagSet').wasCalledWith({ url_passthrough: false, ads_data_redaction: true });
 
-    // Both disabled
-    mockData.url_passthrough = false;
-    mockData.ads_data_redaction = false;
+    // Unchecked boxes arrive as undefined and are written as false.
+    mockData.url_passthrough = undefined;
+    mockData.ads_data_redaction = undefined;
     runCode(mockData);
-    assertApi('gtagSet').wasCalledWith({
-      url_passthrough: false,
-      ads_data_redaction: false,
-    });
+    assertApi('gtagSet').wasCalledWith({ url_passthrough: false, ads_data_redaction: false });
     assertApi('gtmOnSuccess').wasCalled();
+- name: 13 - Data Layer Event
+  code: |-
+    mock('copyFromDataLayer', key => 'cmp_consent_update');
+    let pushed;
+    mock('createQueue', arrayKey => {
+      if (arrayKey === 'dataLayer') return event => { pushed = event; };
+      return () => {};
+    });
 
-    // Both disabled
-    mockData.url_passthrough = false;
-    mockData.ads_data_redaction = false;
+    // Default command: predefined name, no previous state
+    mockData.dataLayerEvent = true;
+    mockData.waitForUpdate = true;
     runCode(mockData);
-    assertApi('gtagSet').wasCalledWith({
-      url_passthrough: false,
-      ads_data_redaction: false,
-    });
     assertApi('gtmOnSuccess').wasCalled();
-- name: Data Layer Event
-  code: "mockData.dataLayerEvent = true;\nmockData.includePreviousState = false;\n\
-    mockData.waitForUpdate = true;\n\nlet dlCalled = false;\n\nmock('createQueue',\
-    \ name => {\n  return e => {\n    let o = e.consent_state;\n    if (e.event ===\
-    \ ('consent_' + mockData.command) && \n        o.analytics_storage  === 'denied'\
-    \ && \n        o.ad_storage         === 'denied' && \n        o.ad_user_data \
-    \      === 'denied' &&\n        o.ad_personalization === 'denied'\n        ) dlCalled\
-    \ = true;\n  };\n});\n// Call runCode to run the template's code.\nrunCode(mockData);\n\
-    // Verify that the tag finished successfully.\nassertApi('gtmOnSuccess').wasCalled();\n\
-    assertThat(dlCalled, 'dataLayer not called with correct arguments').isEqualTo(true);\n\
-    \ndlCalled = false;\nmockData.command = 'update';\nmockData.waitForUpdate = false;\n\
-    mockData.ad_storage = 'true';\nmockData.ad_user_data = 'granted';\nmockData.ad_user_data\
-    \ = true;\nmockData.analytics_storage = 'granted';\nmockData.includePreviousState\
-    \ = true;\n\nmock('createQueue', name => {\n  return e => {\n    let o = e.consent_state;\n\
-    \    let p = e.consent_state_previous;\n    if (e.event === ('consent_' + mockData.command)\
-    \ && \n        o.analytics_storage  === 'granted' && \n        o.ad_storage  \
-    \       === 'granted' && \n        o.ad_user_data       === 'granted' &&\n   \
-    \     o.ad_personalization === 'denied'  && \n        p.analytics_storage  ===\
-    \ 'denied'  && \n        p.ad_storage         === 'denied'  && \n        p.ad_user_data\
-    \       === 'denied'  &&\n        p.ad_personalization === 'denied'\n        )\
-    \ dlCalled = true;\n  };\n});\n// Call runCode to run the template's code.\nrunCode(mockData);\n\
-    // Verify that the tag finished successfully.\nassertApi('gtmOnSuccess').wasCalled();\n\
-    assertThat(dlCalled, 'dataLayer not called with correct arguments').isEqualTo(true);"
-- name: Integration - Microsoft Clarity
-  code: |
+    assertThat(pushed.event).isEqualTo('consent_default');
+    assertThat(pushed.consent_state).isEqualTo({
+      analytics_storage:  'denied',
+      ad_storage:         'denied',
+      ad_user_data:       'denied',
+      ad_personalization: 'denied',
+    });
+    assertThat(pushed.consent_state_previous).isUndefined();
+
+    // Update command on the same page: the previous state is what the default set,
+    // and consent_state merges the partial update over it.
+    pushed = undefined;
+    mockData.command = 'update';
+    mockData.waitForUpdate = false;
+    mockData.includePreviousState = true;
+    mockData.analytics_storage = 'granted';
+    mockData.ad_storage = 'granted';
+    mockData.ad_user_data = undefined;
+    mockData.ad_personalization = undefined;
+    runCode(mockData);
+    assertApi('gtmOnSuccess').wasCalled();
+    assertThat(pushed.event).isEqualTo('consent_update');
+    assertThat(pushed.consent_state).isEqualTo({
+      analytics_storage:  'granted',
+      ad_storage:         'granted',
+      ad_user_data:       'denied',
+      ad_personalization: 'denied',
+    });
+    assertThat(pushed.consent_state_previous).isEqualTo({
+      analytics_storage:  'denied',
+      ad_storage:         'denied',
+      ad_user_data:       'denied',
+      ad_personalization: 'denied',
+    });
+
+    // Custom event name
+    pushed = undefined;
+    mockData.useCustomEventName = true;
+    mockData.customEventName = 'cookie_consent';
+    runCode(mockData);
+    assertThat(pushed.event).isEqualTo('cookie_consent');
+
+    // Unchecked: nothing is pushed
+    pushed = undefined;
+    mockData.dataLayerEvent = false;
+    runCode(mockData);
+    assertThat(pushed).isUndefined();
+- name: 14 - Integration - Microsoft Clarity
+  code: |-
+    mock('copyFromDataLayer', key => 'cmp_consent_update');
+    let clarityCall;
+    mock('createArgumentsQueue', (fnKey, arrayKey) => (command, payload) => {
+      clarityCall = { fnKey: fnKey, arrayKey: arrayKey, command: command, payload: payload };
+    });
     mockData.extMsClarity = true;
 
-    let clarityConsentWasSet = false;
-    mock('createArgumentsQueue', (fnName, arrName) => (arg) => (clarityConsentWasSet = arg === 'consent'));
-
-    // Clarity Not Defined in Window - Consent Denied
+    // Both denied: Clarity is told so, instead of being left without a signal
     runCode(mockData);
-    assertThat(clarityConsentWasSet, 'Clarity consent was set without proper consent').isEqualTo(false);
-    assertApi('gtmOnSuccess').wasCalled();
-
-    // Clarity Not Defined in Window - Consent Granted
-    mockData.analytics_storage = 'granted';
-    runCode(mockData);
-    assertThat(clarityConsentWasSet, 'Clarity consent was not set').isEqualTo(true);
-    assertApi('gtmOnSuccess').wasCalled();
-
-    // Mock Clarity in Window
-    mock('copyFromWindow', (globName) => globName === 'clarity' && () => {});
-
-    // Clarity Defined in Window - Consent Denied
-    mockData.analytics_storage = 'denied';
-    runCode(mockData);
-    assertApi('callInWindow').wasNotCalledWith('clarity', 'consent');
-    assertApi('gtmOnSuccess').wasCalled();
-
-    // Clarity Defined in Window - Consent Granted
-    mockData.analytics_storage = 'granted';
-    runCode(mockData);
-    assertApi('callInWindow').wasCalledWith('clarity', 'consent');
-    assertApi('gtmOnSuccess').wasCalled();
-- name: Integration - Microsoft Advertising (UET)
-  code: |-
-    mockData.extMsAdvertising = true;
-    mockData.ad_storage = 'denied';
-
-    let msCommand;
-    let msConsent;
-
-    mock('createQueue', (fnName) => {
-      if (fnName === 'uetq')
-        return (_, command, consent) => {
-          msCommand = command;
-          msConsent = consent;
-        };
+    assertThat(clarityCall).isEqualTo({
+      fnKey:    'clarity',
+      arrayKey: 'clarity.q',
+      command:  'consentv2',
+      payload:  { ad_Storage: 'denied', analytics_Storage: 'denied' },
     });
-
-
-    runCode(mockData);
-    assertThat(msCommand, 'Incorrect command!').isEqualTo('default');
-    assertThat(msConsent, 'Incorrect consent!').isEqualTo({ ad_storage: 'denied' });
     assertApi('gtmOnSuccess').wasCalled();
 
+    // Analytics granted, ads denied
+    mockData.analytics_storage = 'granted';
+    runCode(mockData);
+    assertThat(clarityCall.payload).isEqualTo({ ad_Storage: 'denied', analytics_Storage: 'granted' });
+
+    // Update with both granted
     mockData.command = 'update';
     mockData.ad_storage = 'granted';
-    mockData.wait_for_update = false;
     runCode(mockData);
-    assertThat(msCommand, 'Incorrect command!').isEqualTo('update');
-    assertThat(msConsent, 'Incorrect consent!').isEqualTo({ ad_storage: 'granted' });
+    assertThat(clarityCall.command).isEqualTo('consentv2');
+    assertThat(clarityCall.payload).isEqualTo({ ad_Storage: 'granted', analytics_Storage: 'granted' });
     assertApi('gtmOnSuccess').wasCalled();
-- name: Integration - Microsoft Invest
+
+    // Disabled: nothing is sent
+    clarityCall = undefined;
+    mockData.extMsClarity = false;
+    runCode(mockData);
+    assertThat(clarityCall).isUndefined();
+- name: 15 - Integration - Microsoft Advertising (UET)
   code: |-
+    mock('copyFromDataLayer', key => 'cmp_consent_update');
+    let uetCall;
+    mock('createQueue', arrayKey => {
+      if (arrayKey === 'uetq') return (action, command, consent) => {
+        uetCall = { action: action, command: command, consent: consent };
+      };
+      return () => {};
+    });
+    mockData.extMsAdvertising = true;
+
+    // Default denied
+    runCode(mockData);
+    assertThat(uetCall).isEqualTo({ action: 'consent', command: 'default', consent: { ad_storage: 'denied' } });
+    assertApi('gtmOnSuccess').wasCalled();
+
+    // Update granted
+    mockData.command = 'update';
+    mockData.ad_storage = 'granted';
+    runCode(mockData);
+    assertThat(uetCall).isEqualTo({ action: 'consent', command: 'update', consent: { ad_storage: 'granted' } });
+
+    // ad_storage missing from a variable: denied is sent
+    mockData.getStateFromVar = true;
+    mockData.consentStateVar = { analytics_storage: 'granted' };
+    runCode(mockData);
+    assertThat(uetCall.consent).isEqualTo({ ad_storage: 'denied' });
+    assertApi('gtmOnSuccess').wasCalled();
+- name: 16 - Integration - Microsoft Invest
+  code: |-
+    mock('copyFromDataLayer', key => 'cmp_consent_update');
+    let investCall;
+    mock('createQueue', arrayKey => {
+      if (arrayKey === 'actionQueue') return action => { investCall = action; };
+      return () => {};
+    });
     mockData.extMsInvest = true;
 
-    let msInvestSettings;
-
-    mock('createQueue', (fnName) => {
-      if (fnName === 'actionQueue')
-        return (arg) => { msInvestSettings = arg; };
-    });
-
-    // Default - Ad Storage Denied & Wait for Update
-    mockData.ad_storage = 'denied';
+    // Default denied with wait_for_update
     mockData.waitForUpdate = true;
     runCode(mockData);
-    assertThat(msInvestSettings, 'Incorrect command!').isEqualTo({
-      'action':      'consent',
-      'actionValue': 'default',
-      'params': {
-        'ad_storage': 'denied',
-        'wait_for_update': 500
-       }
+    assertThat(investCall).isEqualTo({
+      action:      'consent',
+      actionValue: 'default',
+      params:      { ad_storage: 'denied', wait_for_update: 500 },
     });
     assertApi('gtmOnSuccess').wasCalled();
 
-    // Update - Ad Storage Granted
+    // Update granted, no wait_for_update
     mockData.command = 'update';
     mockData.ad_storage = 'granted';
     mockData.waitForUpdate = false;
     runCode(mockData);
-    assertThat(msInvestSettings, 'Incorrect command!').isEqualTo({
-      'action':      'consent',
-      'actionValue': 'update',
-      'params': {
-        'ad_storage': 'granted'
-       }
+    assertThat(investCall).isEqualTo({
+      action:      'consent',
+      actionValue: 'update',
+      params:      { ad_storage: 'granted' },
     });
+    assertApi('gtmOnSuccess').wasCalled();
+- name: 17 - Deduplication - Default is sent in full on Consent Initialization
+  code: |-
+    // Nothing has been set yet, so Tag Manager reports every type as granted. A
+    // granted default must still be sent, and the integrations must see it.
+    mock('copyFromDataLayer', key => 'gtm.init_consent');
+    mock('queryPermission', (permission, consentType, access) => true);
+    mock('isConsentGranted', consentType => true);
+    let uetCall;
+    mock('createQueue', arrayKey => {
+      if (arrayKey === 'uetq') return (action, command, consent) => { uetCall = consent; };
+      return () => {};
+    });
+    mockData.extMsAdvertising = true;
+    mockData.waitForUpdate = true;
+    mockData.analytics_storage = 'granted';
+    mockData.ad_storage = 'granted';
+    mockData.ad_user_data = 'granted';
+    mockData.ad_personalization = 'granted';
+    runCode(mockData);
+
+    assertApi('setDefaultConsentState').wasCalledWith({
+      analytics_storage:  'granted',
+      ad_storage:         'granted',
+      ad_user_data:       'granted',
+      ad_personalization: 'granted',
+      wait_for_update:     500,
+    });
+    assertThat(uetCall).isEqualTo({ ad_storage: 'granted' });
+    assertApi('gtmOnSuccess').wasCalled();
+- name: 18 - Deduplication - Update drops unchanged types on Consent Initialization
+  code: |-
+    // The default tag has set everything to denied earlier on the page. Only the
+    // types that change reach Google; the event and UET get the full state.
+    mock('copyFromDataLayer', key => 'gtm.init_consent');
+    mock('queryPermission', (permission, consentType, access) => true);
+    mock('isConsentGranted', consentType => false);
+    let pushed, uetCall;
+    mock('createQueue', arrayKey => {
+      if (arrayKey === 'dataLayer') return event => { pushed = event; };
+      if (arrayKey === 'uetq') return (action, command, consent) => { uetCall = consent; };
+      return () => {};
+    });
+    mockData.command = 'update';
+    mockData.dataLayerEvent = true;
+    mockData.extMsAdvertising = true;
+    mockData.analytics_storage = 'granted';
+    mockData.ad_storage = 'denied';
+    mockData.ad_user_data = 'granted';
+    mockData.ad_personalization = 'denied';
+    runCode(mockData);
+
+    assertApi('updateConsentState').wasCalledWith({
+      analytics_storage: 'granted',
+      ad_user_data:      'granted',
+    });
+    assertThat(pushed.consent_state).isEqualTo({
+      analytics_storage:  'granted',
+      ad_storage:         'denied',
+      ad_user_data:       'granted',
+      ad_personalization: 'denied',
+    });
+    assertThat(uetCall).isEqualTo({ ad_storage: 'denied' });
+    assertApi('gtmOnSuccess').wasCalled();
+- name: 19 - Deduplication - Update is skipped when nothing changed
+  code: |-
+    mock('copyFromDataLayer', key => 'gtm.init_consent');
+    mock('queryPermission', (permission, consentType, access) => true);
+    mock('isConsentGranted', consentType => false);
+    let queueUsed = false;
+    mock('createQueue', arrayKey => () => { queueUsed = true; });
+    mockData.command = 'update';
+    mockData.dataLayerEvent = true;
+    mockData.extMsAdvertising = true;
+    runCode(mockData);
+
+    assertApi('updateConsentState').wasNotCalled();
+    assertThat(queueUsed, 'integrations or data layer event ran for a skipped command').isFalse();
+    // The flags are written regardless and the tag still succeeds.
+    assertApi('gtagSet').wasCalled();
+    assertApi('gtmOnSuccess').wasCalled();
+- name: 20 - Deduplication - Update is not deduplicated on other triggers
+  code: |-
+    // On a CMP event the visitor has just made a choice, so the command goes out
+    // in full even when Tag Manager already holds the same values.
+    mock('copyFromDataLayer', key => 'cmp_consent_update');
+    mock('queryPermission', (permission, consentType, access) => true);
+    mock('isConsentGranted', consentType => false);
+    mockData.command = 'update';
+    runCode(mockData);
+
+    assertApi('updateConsentState').wasCalledWith({
+      analytics_storage:  'denied',
+      ad_storage:         'denied',
+      ad_user_data:       'denied',
+      ad_personalization: 'denied',
+    });
+    assertApi('gtmOnSuccess').wasCalled();
+- name: 21 - Integration - Microsoft Clarity reports a missing value as denied
+  code: |-
+    // consentv2 requires both values, so a type absent from a variable is sent as
+    // denied, the same fallback Microsoft Advertising uses.
+    mock('copyFromDataLayer', key => 'cmp_consent_update');
+    let clarityPayload;
+    mock('createArgumentsQueue', (fnKey, arrayKey) => (command, payload) => { clarityPayload = payload; });
+    mockData.extMsClarity = true;
+    mockData.getStateFromVar = true;
+
+    // ad_storage missing
+    mockData.consentStateVar = { analytics_storage: 'granted' };
+    runCode(mockData);
+    assertThat(clarityPayload).isEqualTo({ ad_Storage: 'denied', analytics_Storage: 'granted' });
+
+    // analytics_storage missing
+    mockData.consentStateVar = { ad_storage: 'granted' };
+    runCode(mockData);
+    assertThat(clarityPayload).isEqualTo({ ad_Storage: 'granted', analytics_Storage: 'denied' });
+
+    // Both missing while another type keeps the command alive
+    mockData.consentStateVar = { ad_user_data: 'granted' };
+    runCode(mockData);
+    assertThat(clarityPayload).isEqualTo({ ad_Storage: 'denied', analytics_Storage: 'denied' });
+    assertApi('gtmOnSuccess').wasCalled();
+- name: 22 - Debug Logging - Logs the command as JSON
+  code: |-
+    const logs = [];
+    mock('logToConsole', message => { logs.push(message); });
+
+    // Unchecked: silent
+    runCode(mockData);
+    assertThat(logs).isEmpty();
+
+    // Checked: the command that was sent, readable
+    mockData.logToConsole = true;
+    runCode(mockData);
+    assertThat(logs[0]).isEqualTo('default: {"analytics_storage":"denied","ad_storage":"denied","ad_user_data":"denied","ad_personalization":"denied"}');
+    assertApi('gtmOnSuccess').wasCalled();
+- name: 23 - Consent State - Empty state is skipped
+  code: |-
+    // A variable that yields no usable consent type gives nothing to send, so the
+    // command, the integrations and the data layer event are skipped and the tag
+    // still succeeds.
+    let queueUsed = false;
+    mock('createQueue', arrayKey => () => { queueUsed = true; });
+    mock('createArgumentsQueue', (fnKey, arrayKey) => () => { queueUsed = true; });
+    mockData.getStateFromVar = true;
+    mockData.consentStateVar = { analytics_storage: 'maybe' };
+    mockData.dataLayerEvent = true;
+    mockData.extMsClarity = true;
+    mockData.extMsAdvertising = true;
+    runCode(mockData);
+
+    assertApi('setDefaultConsentState').wasNotCalled();
+    assertThat(queueUsed, 'integrations or data layer event ran for an empty state').isFalse();
+    assertApi('gtagSet').wasCalled();
     assertApi('gtmOnSuccess').wasCalled();
 setup: |-
   let mockData = {
@@ -1804,43 +1933,17 @@ setup: |-
     wait_for_update:     500,
     url_passthrough:     true,
     ads_data_redaction:  true,
-    pushDataLayerEvent:  false,
-    // External consent
+    dataLayerEvent:      false,
+    logToConsole:        false,
+    // Consent Integrations
     extMsClarity:     false,
     extMsInvest:      false,
     extMsAdvertising: false,
   };
   const regionsEEA = [
-    'AT',
-    'BE',
-    'BG',
-    'HR',
-    'CY',
-    'CZ',
-    'DK',
-    'EE',
-    'FI',
-    'FR',
-    'DE',
-    'GR',
-    'HU',
-    'IE',
-    'IT',
-    'LV',
-    'LT',
-    'LU',
-    'MT',
-    'NL',
-    'PL',
-    'PT',
-    'RO',
-    'SK',
-    'SI',
-    'ES',
-    'SE',
-    'NO',
-    'IS',
-    'LI'
+    'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR',
+    'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
+    'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'NO', 'IS', 'LI'
   ];
 
 

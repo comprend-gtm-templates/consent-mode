@@ -486,7 +486,7 @@
             "name": "extMsClarity",
             "checkboxText": "Microsoft Clarity",
             "simpleValueType": true,
-            "help": "<b>Microsoft Clarity</b><br>\nEnables consent mode integration with Microsoft Clarity through the <em>consentv2</em> call, which is sent for granted and denied consent alike.<br><br>\n\nThe integration reads from:<br>\n&emsp;<b>analytics_storage</b><br>\n&emsp;<b>ad_storage</b><br><br>\nRead more here:<br>\n<a href=\"https://learn.microsoft.com/en-us/clarity/setup-and-installation/consent-mode\">https://learn.microsoft.com/en-us/clarity/setup-and-installation/consent-mode</a><br>\n<a href=\"https://learn.microsoft.com/en-us/clarity/setup-and-installation/clarity-consent-api-v2\">https://learn.microsoft.com/en-us/clarity/setup-and-installation/clarity-consent-api-v2</a>",
+            "help": "<b>Microsoft Clarity</b><br>\nEnables consent mode integration with Microsoft Clarity through the <em>consentv2</em> call, which is sent for granted and denied consent alike.<br><br>\n\nThe integration reads from:<br>\n&emsp;<b>analytics_storage</b><br>\n&emsp;<b>ad_storage</b><br><br>\nA consent type that is not part of the consent state is reported to Clarity as <b>denied</b>.<br><br>\nRead more here:<br>\n<a href=\"https://learn.microsoft.com/en-us/clarity/setup-and-installation/consent-mode\">https://learn.microsoft.com/en-us/clarity/setup-and-installation/consent-mode</a><br>\n<a href=\"https://learn.microsoft.com/en-us/clarity/setup-and-installation/clarity-consent-api-v2\">https://learn.microsoft.com/en-us/clarity/setup-and-installation/clarity-consent-api-v2</a>",
             "valueValidators": []
           },
           {

@@ -614,21 +614,30 @@ assertApi('updateConsentState').wasCalledWith({
 assertApi('gtmOnSuccess').wasCalled();
 
 // ============================================================================
-// 21 - Integration - Microsoft Clarity is skipped when a value is missing
+// 21 - Integration - Microsoft Clarity reports a missing value as denied
 // ============================================================================
+// consentv2 requires both values, so a type absent from a variable is sent as
+// denied, the same fallback Microsoft Advertising uses.
 mock('copyFromDataLayer', key => 'cmp_consent_update');
-let clarityCalled = false;
-mock('createArgumentsQueue', (fnKey, arrayKey) => () => { clarityCalled = true; });
-const logs = [];
-mock('logToConsole', message => { logs.push(message); });
+let clarityPayload;
+mock('createArgumentsQueue', (fnKey, arrayKey) => (command, payload) => { clarityPayload = payload; });
 mockData.extMsClarity = true;
-mockData.logToConsole = true;
 mockData.getStateFromVar = true;
+
+// ad_storage missing
 mockData.consentStateVar = { analytics_storage: 'granted' };
 runCode(mockData);
+assertThat(clarityPayload).isEqualTo({ ad_Storage: 'denied', analytics_Storage: 'granted' });
 
-assertThat(clarityCalled, 'consentv2 was called without ad_storage').isFalse();
-assertThat(logs.some(m => m.indexOf('Microsoft Clarity') !== -1), 'no log line about the skipped Clarity call').isTrue();
+// analytics_storage missing
+mockData.consentStateVar = { ad_storage: 'granted' };
+runCode(mockData);
+assertThat(clarityPayload).isEqualTo({ ad_Storage: 'granted', analytics_Storage: 'denied' });
+
+// Both missing while another type keeps the command alive
+mockData.consentStateVar = { ad_user_data: 'granted' };
+runCode(mockData);
+assertThat(clarityPayload).isEqualTo({ ad_Storage: 'denied', analytics_Storage: 'denied' });
 assertApi('gtmOnSuccess').wasCalled();
 
 // ============================================================================
@@ -645,4 +654,25 @@ assertThat(logs).isEmpty();
 mockData.logToConsole = true;
 runCode(mockData);
 assertThat(logs[0]).isEqualTo('default: {"analytics_storage":"denied","ad_storage":"denied","ad_user_data":"denied","ad_personalization":"denied"}');
+assertApi('gtmOnSuccess').wasCalled();
+
+// ============================================================================
+// 23 - Consent State - Empty state is skipped
+// ============================================================================
+// A variable that yields no usable consent type gives nothing to send, so the
+// command, the integrations and the data layer event are skipped and the tag
+// still succeeds.
+let queueUsed = false;
+mock('createQueue', arrayKey => () => { queueUsed = true; });
+mock('createArgumentsQueue', (fnKey, arrayKey) => () => { queueUsed = true; });
+mockData.getStateFromVar = true;
+mockData.consentStateVar = { analytics_storage: 'maybe' };
+mockData.dataLayerEvent = true;
+mockData.extMsClarity = true;
+mockData.extMsAdvertising = true;
+runCode(mockData);
+
+assertApi('setDefaultConsentState').wasNotCalled();
+assertThat(queueUsed, 'integrations or data layer event ran for an empty state').isFalse();
+assertApi('gtagSet').wasCalled();
 assertApi('gtmOnSuccess').wasCalled();

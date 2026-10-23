@@ -18,7 +18,7 @@ versions:
   - sha: <REPLACE WITH COMMIT SHA OF template.tpl>
     changeNotes: |-
       Default commands are always sent in full; only update commands on the Consent Initialization trigger are deduplicated, and the Microsoft integrations and the data layer event now receive the full consent state.
-      Microsoft Clarity integration uses the consentv2 call with both ad_storage and analytics_storage, for granted and denied consent alike.
+      Microsoft Clarity integration uses the consentv2 call with both ad_storage and analytics_storage, for granted and denied consent alike; a type missing from the state is reported as denied.
       ad_storage can no longer be (not set) while Microsoft Invest or Microsoft Clarity is enabled.
       Corrected the functionality_storage and Data Layer Event help texts; the event's consent_state no longer carries consent types with undefined values.
       Debug logging prints the consent command as JSON.

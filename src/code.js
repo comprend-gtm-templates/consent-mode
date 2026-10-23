@@ -138,16 +138,16 @@ function deduplicateConsentStates(newConsentState) {
   // A default command is always sent in full. Tag Manager reports a consent type
   // that has never been set as granted, so comparing against it would drop every
   // granted default and change how a region-specific default resolves.
-  if (data.command !== 'update')
-    return newConsentState;
   const commandState = {};
   Object.keys(newConsentState).forEach(type => {
-    const currentState = readConsentState(type);
-    if (currentState && newConsentState[type] === currentState) return;
+    if (data.command === 'update') {
+      const currentState = readConsentState(type);
+      if (currentState && newConsentState[type] === currentState) return;
+    }
     commandState[type] = newConsentState[type];
   });
   if (!Object.keys(commandState).length) {
-    log('No changes in consent state. Skipping "' + data.command + '" command.');
+    log('Consent state is empty or unchanged. Skipping "' + data.command + '" command.');
     return false;
   }
   return commandState;
@@ -196,18 +196,11 @@ function getWaitForUpdate() {
 
 function activateIntegrations(consentState) {
   // Microsoft Clarity
-  // consentv2 replaces the deprecated consent call and needs both values. The
-  // queue function reuses window.clarity when Clarity has already loaded and
-  // otherwise queues the call for it, so one call covers both cases.
   if (data.extMsClarity) {
-    if (consentState.analytics_storage && consentState.ad_storage) {
-      require('createArgumentsQueue')('clarity', 'clarity.q')('consentv2', {
-        'ad_Storage':        consentState.ad_storage,
-        'analytics_Storage': consentState.analytics_storage
-      });
-    } else {
-      log('Microsoft Clarity needs both analytics_storage and ad_storage. Skipping consentv2 call.');
-    }
+    require('createArgumentsQueue')('clarity', 'clarity.q')('consentv2', {
+      'ad_Storage':        consentState.ad_storage        || 'denied',
+      'analytics_Storage': consentState.analytics_storage || 'denied'
+    });
   }
   // Microsoft Advertising
   if (data.extMsAdvertising) {
