@@ -1,4 +1,5 @@
 const logToConsole = require('logToConsole');
+const JSON = require('JSON');
 const Object = require('Object');
 const gtagSet = require('gtagSet');
 const makeInteger = require('makeInteger');
@@ -58,11 +59,14 @@ const regionsEEA = [
 ];
 
 // Update Consent - Global
-const newConsentState = deduplicateConsentStates(getNewConsentState());
+// The Google command only carries the types whose value changes. The integrations
+// and the data layer event always receive the full requested state.
+const newConsentState = getNewConsentState();
+const commandState = deduplicateConsentStates(newConsentState);
 
-if (newConsentState) {
-  setConsent[data.command](newConsentState);
-  log(data.command + ': ' + newConsentState);
+if (commandState) {
+  setConsent[data.command](commandState);
+  log(data.command + ': ' + JSON.stringify(commandState));
 }
 
 // URL Passthrough & Ads Data Redaction
@@ -71,7 +75,7 @@ gtagSet({
   'ads_data_redaction': data.ads_data_redaction || false
 });
 
-if (newConsentState) {
+if (commandState) {
   // Consent Mode Integrations
   activateIntegrations(newConsentState);
 
@@ -118,7 +122,7 @@ function getEventMessage(newState) {
   consentTypes.forEach(consentType => {
     if (newState[consentType])
       mergedState[consentType] = newState[consentType];
-    else if (previousState)
+    else if (previousState && previousState[consentType])
       mergedState[consentType] = previousState[consentType];
   });
   tplStorage.setItem('previousConsentState', mergedState);
@@ -131,20 +135,22 @@ function getEventMessage(newState) {
 }
 
 function deduplicateConsentStates(newConsentState) {
-  const consentTypes = Object.keys(newConsentState);
-  consentTypes.forEach(type => {
+  // A default command is always sent in full. Tag Manager reports a consent type
+  // that has never been set as granted, so comparing against it would drop every
+  // granted default and change how a region-specific default resolves.
+  if (data.command !== 'update')
+    return newConsentState;
+  const commandState = {};
+  Object.keys(newConsentState).forEach(type => {
     const currentState = readConsentState(type);
-    if (!currentState) return;
-    const newState = newConsentState[type];
-    if (newState === currentState)
-      Object.delete(newConsentState, type);
+    if (currentState && newConsentState[type] === currentState) return;
+    commandState[type] = newConsentState[type];
   });
-  const stateModified = !!Object.keys(newConsentState).length;
-  if (!stateModified) {
+  if (!Object.keys(commandState).length) {
     log('No changes in consent state. Skipping "' + data.command + '" command.');
     return false;
   }
-  return newConsentState;
+  return commandState;
 }
 
 function getNewConsentState() {
@@ -190,13 +196,17 @@ function getWaitForUpdate() {
 
 function activateIntegrations(consentState) {
   // Microsoft Clarity
+  // consentv2 replaces the deprecated consent call and needs both values. The
+  // queue function reuses window.clarity when Clarity has already loaded and
+  // otherwise queues the call for it, so one call covers both cases.
   if (data.extMsClarity) {
-    if (consentState.analytics_storage === 'granted') {
-      const clarityIsDefined = require('copyFromWindow')('clarity');
-      if (clarityIsDefined)
-        require('callInWindow')('clarity', 'consent');
-      else
-        require('createArgumentsQueue')('clarity', 'clarity.q')('consent');
+    if (consentState.analytics_storage && consentState.ad_storage) {
+      require('createArgumentsQueue')('clarity', 'clarity.q')('consentv2', {
+        'ad_Storage':        consentState.ad_storage,
+        'analytics_Storage': consentState.analytics_storage
+      });
+    } else {
+      log('Microsoft Clarity needs both analytics_storage and ad_storage. Skipping consentv2 call.');
     }
   }
   // Microsoft Advertising

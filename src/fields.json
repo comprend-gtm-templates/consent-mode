@@ -152,10 +152,21 @@
               },
               {
                 "type": "NON_EMPTY",
-                "errorMessage": "This value cannot be <b>\"(not set)\"</b> while consent integration with <b>Microsoft Invest(UET)</b> is enabled.",
+                "errorMessage": "This value cannot be <b>\"(not set)\"</b> while consent integration with <b>Microsoft Invest (Universal Pixel)</b> is enabled.",
                 "enablingConditions": [
                   {
-                    "paramName": "extPixie",
+                    "paramName": "extMsInvest",
+                    "paramValue": true,
+                    "type": "EQUALS"
+                  }
+                ]
+              },
+              {
+                "type": "NON_EMPTY",
+                "errorMessage": "This value cannot be <b>\"(not set)\"</b> while consent integration with <b>Microsoft Clarity</b> is enabled.",
+                "enablingConditions": [
+                  {
+                    "paramName": "extMsClarity",
                     "paramValue": true,
                     "type": "EQUALS"
                   }
@@ -247,7 +258,7 @@
                 ],
                 "simpleValueType": true,
                 "notSetText": "(not set)",
-                "help": "⚙️ <b>functionality_storage</b><br>\nEnables storage related to personalization, for example, video recommendations.\n<br><br>\n🔗 <a href=\"https://developers.google.com/tag-platform/security/concepts/consent-mode#consent-types\">Consent Mode Overview - Consent Types</a>"
+                "help": "⚙️ <b>functionality_storage</b><br>\nEnables storage that supports the functionality of the website or app, for example, language settings.\n<br><br>\n🔗 <a href=\"https://developers.google.com/tag-platform/security/concepts/consent-mode#consent-types\">Consent Mode Overview - Consent Types</a>"
               },
               {
                 "type": "SELECT",
@@ -347,7 +358,7 @@
         "name": "dataLayerEvent",
         "checkboxText": "Data Layer Event",
         "simpleValueType": true,
-        "help": "📢 <b>Data Layer Event</b>\n<br>\nPush a predefined event to the data layer when consent state is modified by this template. Alternatively, specify a custom event name that better suits the needs of your specific setup.\n<br><br>\n<b>Pre-defined event names:</b><br>\n🔹 consent_default<br>\n🔹 consent_update\n<br><br>\n<b>Example event:</b><br>\ndataLayer.push({<br>\n&emsp;\nevent: \"<b>consent_&lt;command></b>\",<br>\n&emsp;\n<b>consent_state</b>: {<br>\n&emsp;&emsp;\nanalytics_storage,<br>\n&emsp;&emsp;\nad_user_data,<br>\n&emsp;&emsp;\nad_personalization,<br>\n&emsp;&emsp;\npersonalization_storage,<br>\n&emsp;&emsp;\nfunctionality_storage,<br>\n&emsp;&emsp;\nsecurity_storage,<br>\n&emsp;&emsp;\n<em>wait_for_update</em>,<br>\n&emsp;&emsp;\n<em>region_specific</em> (region-specific consent state)<br>\n&emsp;\n},<br>\n&emsp;\n<em>consent_state_default</em>,&emsp;(optional)<br>\n&emsp;\n<em>consent_state_previous</em>, (optional)<br>\n})",
+        "help": "📢 <b>Data Layer Event</b>\n<br>\nPush a predefined event to the data layer when consent state is modified by this template. Alternatively, specify a custom event name that better suits the needs of your specific setup.\n<br><br>\n<b>Pre-defined event names:</b><br>\n🔹 consent_default<br>\n🔹 consent_update\n<br><br>\n<b>Example event:</b><br>\ndataLayer.push({<br>\n&emsp;\nevent: \"<b>consent_&lt;command></b>\",<br>\n&emsp;\n<b>consent_state</b>: {<br>\n&emsp;&emsp;\nanalytics_storage,<br>\n&emsp;&emsp;\nad_storage,<br>\n&emsp;&emsp;\nad_user_data,<br>\n&emsp;&emsp;\nad_personalization,<br>\n&emsp;&emsp;\npersonalization_storage,<br>\n&emsp;&emsp;\nfunctionality_storage,<br>\n&emsp;&emsp;\nsecurity_storage<br>\n&emsp;\n},<br>\n&emsp;\n<em>consent_state_previous</em> (optional, see <b>Include Previous State</b>)<br>\n})\n<br><br>\n<b>consent_state</b> holds every consent type this template has set on the current page, with the latest command merged over the earlier ones. Consent types that have not been set are left out, and so are <em>region</em> and <em>wait_for_update</em>.",
         "subParams": [
           {
             "type": "GROUP",
@@ -359,7 +370,7 @@
                 "name": "includePreviousState",
                 "checkboxText": "Include Previous State",
                 "simpleValueType": true,
-                "help": "⚙️ <b>Include Previous Consent State</b>\n<br>\nIncludes the additional variable <b>consent_state_previous</b> in the data layer event that is pushed together with the <b>update</b> command. The variable holds information about the consent state that was last set by this template.\n<br><br>\n<b>Example event:</b><br>\ndataLayer.push({<br>\n&emsp;\nevent: \"<b>consent_update</b>\",<br>\n&emsp;\nconsent_state, (current consent state)<br>\n&emsp;\n<b>consent_state_previous</b>: {<br>\n&emsp;&emsp;\nanalytics_storage,<br>\n&emsp;&emsp;\nad_user_data,<br>\n&emsp;&emsp;\nad_personalization,<br>\n&emsp;&emsp;\npersonalization_storage,<br>\n&emsp;&emsp;\nfunctionality_storage,<br>\n&emsp;&emsp;\nsecurity_storage<br>\n&emsp;\n</em>}<br>\n})",
+                "help": "⚙️ <b>Include Previous Consent State</b>\n<br>\nIncludes the additional variable <b>consent_state_previous</b> in the data layer event that is pushed together with the <b>update</b> command. The variable holds the consent state that was last set by this template on the current page, and is undefined on the first fire after a page load.\n<br><br>\n<b>Example event:</b><br>\ndataLayer.push({<br>\n&emsp;\nevent: \"<b>consent_update</b>\",<br>\n&emsp;\nconsent_state, (current consent state)<br>\n&emsp;\n<b>consent_state_previous</b>: {<br>\n&emsp;&emsp;\nanalytics_storage,<br>\n&emsp;&emsp;\nad_storage,<br>\n&emsp;&emsp;\nad_user_data,<br>\n&emsp;&emsp;\nad_personalization,<br>\n&emsp;&emsp;\npersonalization_storage,<br>\n&emsp;&emsp;\nfunctionality_storage,<br>\n&emsp;&emsp;\nsecurity_storage<br>\n&emsp;\n}<br>\n})",
                 "enablingConditions": [
                   {
                     "paramName": "command",
@@ -475,7 +486,7 @@
             "name": "extMsClarity",
             "checkboxText": "Microsoft Clarity",
             "simpleValueType": true,
-            "help": "<b>Microsoft Clarity</b><br>\nEnables consent mode integration with Microsoft Clarity.<br><br>\n\nThe integration reads from:<br>\n&emsp;<b>analytics_storage</b><br><br>\nRead more here:<br>\n<a href=\"https://learn.microsoft.com/en-us/clarity/setup-and-installation/cookie-consent\">https://learn.microsoft.com/en-us/clarity/setup-and-installation/cookie-consent</a>",
+            "help": "<b>Microsoft Clarity</b><br>\nEnables consent mode integration with Microsoft Clarity through the <em>consentv2</em> call, which is sent for granted and denied consent alike.<br><br>\n\nThe integration reads from:<br>\n&emsp;<b>analytics_storage</b><br>\n&emsp;<b>ad_storage</b><br><br>\nRead more here:<br>\n<a href=\"https://learn.microsoft.com/en-us/clarity/setup-and-installation/consent-mode\">https://learn.microsoft.com/en-us/clarity/setup-and-installation/consent-mode</a><br>\n<a href=\"https://learn.microsoft.com/en-us/clarity/setup-and-installation/clarity-consent-api-v2\">https://learn.microsoft.com/en-us/clarity/setup-and-installation/clarity-consent-api-v2</a>",
             "valueValidators": []
           },
           {
