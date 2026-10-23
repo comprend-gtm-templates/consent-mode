@@ -1,8 +1,23 @@
 # Consent Mode
 
-## Purpose
-
-A web container tag that manages Google consent mode from Google Tag Manager: it sets the default consent state before any other tag fires, or sends a consent update once the visitor has made a choice. It covers the seven Google consent types, region-specific defaults, `wait_for_update`, URL passthrough and ads data redaction, can announce every change with a data layer event, and can forward the same consent state to Microsoft Clarity, Microsoft Advertising (UET) and Microsoft Invest (Universal Pixel). It replaces the `gtag('consent', ...)` snippet that would otherwise have to sit in the page template.
+Manages consent mode using the internal Consent APIs and offers the following functionality:
+- Update the seven Google consent types:
+  - `analytics_storage`
+  - `ad_storage`
+  - `ad_user_data`
+  - `ad_personalization`
+  - `personalization_storage`
+  - `functionality_storage`
+  - `security_storage`
+- Set region-specific defaults
+- Set `wait_for_update`
+- Set `url_passthrough`
+- Set `ads_data_redaction`
+- Announce every consent change with a data layer event
+- Manage consent for third-party integrations:
+  - Microsoft Clarity
+  - Microsoft Advertising (UET)
+  - Microsoft Invest (Universal Pixel)
 
 ## Behaviour
 
@@ -18,22 +33,23 @@ A web container tag that manages Google consent mode from Google Tag Manager: it
 
 ### Consent Command
 
-| Field | Required | Accepts | Effect on data |
-| --- | --- | --- | --- |
-| Consent Command | Yes | `default` (default) or `update` | `default` sets the default consent state and shows **Region Specific Behaviour** and **Wait For Update**. `update` sends a consent update and shows **Include Previous State** |
+| Field | Option | Description |
+| --- | --- | --- |
+| Consent Command | `default` | Sets the default consent state and shows **Region Specific Behaviour** and **Wait For Update**. |
+| Consent Command | `update` | Sends a consent update and shows **Include Previous State** |
 
 ### Region Specific Behaviour
 
-Shown for `default`.
+Shown for **Consent Command** `default`.
 
-| Field | Required | Accepts | Effect on data |
+| Field | Required | Accepts | Description |
 | --- | --- | --- | --- |
 | Regions | No | Comma-separated ISO 3166-2 country or subdivision codes, for example `SE,DK,DE` or `US-CA`, literal or variable. Spaces are trimmed and codes are upper-cased | Becomes the `region` list of the default command, so the defaults apply to visitors from those regions only. Empty, with **EEA Regions** unchecked: the defaults apply to all visitors |
 | EEA Regions | No | Checkbox, unchecked by default | Adds the 30 EEA countries (the 27 EU member states plus Norway, Iceland and Liechtenstein) to the `region` list, deduplicated against **Regions** |
 
 ### Consent Settings
 
-| Field | Required | Accepts | Effect on data |
+| Field | Required | Accepts | Description |
 | --- | --- | --- | --- |
 | Read Settings From Variable | No | Checkbox, unchecked by default | Checked: hides **Consent Types** and shows a variable dropdown. The variable must return an object keyed by consent type, see [Setup notes](#setup-notes). Unchecked: the state comes from the fields below |
 | analytics_storage | No | `granted`, `denied` (default) or a variable | Consent for analytics cookies and identifiers. Cannot be `(not set)` while **Microsoft Clarity** is enabled |
@@ -48,7 +64,7 @@ The last three sit under **Additional Consent Types**, collapsed until one of th
 
 ### Additional Settings
 
-| Field | Required | Accepts | Effect on data |
+| Field | Required | Accepts | Description |
 | --- | --- | --- | --- |
 | Wait For Update | No | Checkbox, unchecked by default. Shown for `default` | Checked: shows **Time to wait (milliseconds)** and adds `wait_for_update` to the default command, so Google tags hold their data for that long while waiting for an update |
 | Time to wait (milliseconds) | When **Wait For Update** is checked | Non-negative number, default `500`, literal or variable | Rounded to the nearest whole millisecond. `0` or empty: `wait_for_update` is omitted |
@@ -63,7 +79,7 @@ The last three sit under **Additional Consent Types**, collapsed until one of th
 
 Every integration receives the plain consent state for every visitor. The region list is not passed on, so a region-specific default is applied to all visitors by these integrations; the template shows a warning when both are configured.
 
-| Field | Required | Accepts | Effect on data |
+| Field | Required | Accepts | Description |
 | --- | --- | --- | --- |
 | Microsoft Clarity | No | Checkbox, unchecked by default | Calls `clarity('consentv2', { ad_Storage, analytics_Storage })` with the values of `ad_storage` and `analytics_storage`, granted or denied alike, so Clarity sets or clears its cookies accordingly; if Clarity has not loaded yet, the call is queued for it. A type that is not part of the state is sent as `denied` |
 | Microsoft Advertising | No | Checkbox, unchecked by default | Pushes `'consent', '<command>', { ad_storage }` to the `uetq` queue of Universal Event Tracking. When `ad_storage` is not part of the command, `denied` is sent |
@@ -88,8 +104,8 @@ Every integration receives the plain consent state for every visitor. The region
 
 ## Setup notes
 
-- Use two tags from this template. The `default` tag fires on **Consent Initialization - All Pages**, the trigger Google requires so that defaults are in place before any other tag runs. The `update` tag fires on a trigger raised when the visitor makes a choice, typically a Custom Event pushed by your consent banner, and again as early as possible on later pages where the stored choice is read back. Google asks that the update is sent on the page where the choice is made, before the visitor navigates away.
 - One tag sends one command. For different defaults per region, add one `default` tag per region list; a `default` tag without regions is the fallback for everyone else. When a visitor matches both a region and a subdivision, the more specific one wins.
+
 - **Read Settings From Variable** expects a variable, for example a Data Layer Variable or a Custom JavaScript variable, that returns an object such as:
 
   ```js
