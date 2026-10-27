@@ -15,6 +15,9 @@
 homepage: "https://www.comprend.com"
 documentation: "https://github.com/comprend-gtm-templates/consent-mode"
 versions:
+  - sha: e1a4ffbf32682b6ff4da53374b25fe938aab205e
+    changeNotes: |-
+      Update brand image.
   - sha: a1bcd3e3038a286744376dc424e2c9ef925b73e6
     changeNotes: |-
       Default commands are always sent in full; only update commands on the Consent Initialization trigger are deduplicated, and the Microsoft integrations and the data layer event now receive the full consent state.
