@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-homepage: "https://www.comprend.com"
+homepage: "https://www.comprend.com?utm_source=gtm-community-template-gallery&utm_medium=consent-mode"
 documentation: "https://github.com/comprend-gtm-templates/consent-mode"
 versions:
   - sha: e1a4ffbf32682b6ff4da53374b25fe938aab205e
